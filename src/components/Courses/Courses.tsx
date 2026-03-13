@@ -1,5 +1,7 @@
 import CourseCard from "./components/CourseCard/CourseCard";
-function Courses({ courses, authors }) {
+import { CourseProps } from "./Courses.types";
+
+function Courses({ courses, authors }: CourseProps) {
     const authorMap: { [id: string]: string } = {};
     for (const author of authors) {
         authorMap[author.id] = author.name;

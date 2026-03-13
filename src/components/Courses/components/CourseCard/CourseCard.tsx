@@ -1,5 +1,5 @@
 import Button from "../../../../common/Button/Button";
-import { getCourseDuration } from "../../../../helpers/getCourseDuration";
+import getCourseDuration from "../../../../helpers/getCourseDuration";
 import formatCreationDate from "../../../../helpers/formatCreationDate";
 import { CourseCardProps } from "./CourseCard.types";
 import styles from "./CourseCard.module.css";

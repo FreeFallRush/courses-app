@@ -1,4 +1,7 @@
-export function getCourseDuration(minutes: number): string {
+export default function getCourseDuration(minutes?: number): string {
+    if (typeof minutes !== "number" || isNaN(minutes) || minutes < 0) {
+        return "Invalid duration";
+    }
     const hrs = Math.floor(minutes / 60);
     const mins = minutes % 60;
     const hoursTxt = hrs < 10 ? `0${hrs}` : `${hrs}`;

@@ -1,5 +1,6 @@
 import CourseCard from "./components/CourseCard/CourseCard";
 import { CourseProps } from "./Courses.types";
+import Button from "../../common/Button/Button";
 
 function Courses({ courses, authors }: CourseProps) {
     const authorMap: { [id: string]: string } = {};
@@ -31,6 +32,7 @@ function Courses({ courses, authors }: CourseProps) {
                     authorNames={getAuthors(course.authors)}
                 />
             ))}
+            <Button buttonText="Add new course" />
         </div>
     );
 }

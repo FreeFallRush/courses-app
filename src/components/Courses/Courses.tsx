@@ -1,24 +1,17 @@
+import CourseCard from "./components/CourseCard/CourseCard";
 function Courses({ courses, authors }) {
     return (
         <div>
-            <p>test</p>
-            <div>
-                {courses.map((course) => {
-                    console.log(course);
-                    return (
-                        <div>
-                            <p>{course.title}</p>
-                            <p>{course.description}</p>
-                        </div>
-                    );
-                })}
-            </div>
-            <div>
-                {authors.map((author) => {
-                    console.log(author);
-                    return <p>{author.name}</p>;
-                })}
-            </div>
+            {courses.map((course) => (
+                <CourseCard
+                    key={course.id}
+                    title={course.title}
+                    description={course.description}
+                    duration={course.duration}
+                    creationDate={course.creationDate}
+                    authorNames={course.authors}
+                />
+            ))}
         </div>
     );
 }

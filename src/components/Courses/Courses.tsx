@@ -2,6 +2,7 @@ import CourseCard from "./components/CourseCard/CourseCard";
 import { CourseProps } from "./Courses.types";
 import Button from "../../common/Button/Button";
 import EmptyCourseList from "../EmptyCourseList/EmptyCourseList";
+import styles from "./Courses.module.css";
 
 function Courses({ courses, authors }: CourseProps) {
     if (courses.length === 0) {
@@ -25,7 +26,7 @@ function Courses({ courses, authors }: CourseProps) {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             {courses.map((course) => (
                 <CourseCard
                     key={course.id}

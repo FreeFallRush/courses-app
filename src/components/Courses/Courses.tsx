@@ -4,6 +4,9 @@ import Button from "../../common/Button/Button";
 import EmptyCourseList from "../EmptyCourseList/EmptyCourseList";
 
 function Courses({ courses, authors }: CourseProps) {
+    if (courses.length === 0) {
+        return <EmptyCourseList />;
+    }
     const authorMap: { [id: string]: string } = {};
     for (const author of authors) {
         authorMap[author.id] = author.name;
@@ -23,7 +26,6 @@ function Courses({ courses, authors }: CourseProps) {
 
     return (
         <div>
-            <EmptyCourseList />
             {courses.map((course) => (
                 <CourseCard
                     key={course.id}

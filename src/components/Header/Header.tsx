@@ -1,9 +1,10 @@
 import Logo from "./components/Logo/Logo";
+import Button from "../../common/Button/Button";
 function Header() {
     return (
         <>
-            <h1>Test</h1>
             <Logo />
+            <Button buttonText="Logout" />
         </>
     );
 }

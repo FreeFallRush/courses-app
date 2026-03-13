@@ -1,6 +1,7 @@
 import Button from "../../../../common/Button/Button";
 import { getCourseDuration } from "../../../../helpers/getCourseDuration";
 import { CourseCardProps } from "./CourseCard.types";
+import styles from "./CourseCard.module.css";
 
 function CourseCard({
     title = "Course Title",
@@ -10,14 +11,18 @@ function CourseCard({
     authorNames = ["name2", "name3"],
 }: CourseCardProps) {
     return (
-        <div>
-            <h2>{title}</h2>
-            <div>
-                <p>{description}</p>
-                <p>{authorNames}</p>
-                <p>Duration: {getCourseDuration(duration)}</p>
+        <div className={styles.cardContainer}>
+            <h2 className={styles.title}>{title}</h2>
+            <div className={styles.card}>
+                <div className={styles.leftCardSide}>
+                    <p className={styles.description}>{description}</p>
+                </div>
+                <div className={styles.rightCardSide}>
+                    <p>{authorNames}</p>
+                    <p>Duration: {getCourseDuration(duration)}</p>
+                </div>
+                <Button buttonText="SHOW COURSE" />
             </div>
-            <Button buttonText="SHOW COURSE" />
         </div>
     );
 }

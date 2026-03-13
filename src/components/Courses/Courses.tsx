@@ -1,5 +1,22 @@
 import CourseCard from "./components/CourseCard/CourseCard";
 function Courses({ courses, authors }) {
+    const authorMap: { [id: string]: string } = {};
+    for (const author of authors) {
+        authorMap[author.id] = author.name;
+    }
+
+    const getAuthors = (authorsIds: string[]): string[] => {
+        const names: string[] = [];
+
+        for (const id of authorsIds) {
+            const name = authorMap[id];
+            if (name) {
+                names.push(name);
+            }
+        }
+        return names;
+    };
+
     return (
         <div>
             {courses.map((course) => (
@@ -9,7 +26,7 @@ function Courses({ courses, authors }) {
                     description={course.description}
                     duration={course.duration}
                     creationDate={course.creationDate}
-                    authorNames={course.authors}
+                    authorNames={getAuthors(course.authors)}
                 />
             ))}
         </div>

@@ -2,7 +2,13 @@ import Button from "../../../../common/Button/Button";
 import { getCourseDuration } from "../../../../helpers/getCourseDuration";
 import { CourseCardProps } from "./CourseCard.types";
 
-function CourseCard({title, duration, creationDate, description authorNames}:CourseCardProps) {
+function CourseCard({
+    title = "Course Title",
+    duration = 60,
+    creationDate = "01/01/2025",
+    description = "Course Description",
+    authorNames = ["name2", "name3"],
+}: CourseCardProps) {
     return (
         <div>
             <h2>{title}</h2>

@@ -1,6 +1,7 @@
 import CourseCard from "./components/CourseCard/CourseCard";
 import { CourseProps } from "./Courses.types";
 import Button from "../../common/Button/Button";
+import EmptyCourseList from "../EmptyCourseList/EmptyCourseList";
 
 function Courses({ courses, authors }: CourseProps) {
     const authorMap: { [id: string]: string } = {};
@@ -22,6 +23,7 @@ function Courses({ courses, authors }: CourseProps) {
 
     return (
         <div>
+            <EmptyCourseList />
             {courses.map((course) => (
                 <CourseCard
                     key={course.id}

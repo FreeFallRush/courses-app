@@ -1,9 +1,9 @@
-import Example from "./components/Example";
+import Header from "./components/Header/Header";
 
 function App() {
     return (
         <>
-            <Example />
+            <Header />
         </>
     );
 }

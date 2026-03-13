@@ -1,3 +1,5 @@
+import styles from "./Button.module.css";
+
 type ButtonProps = {
     buttonText: string;
     onClick?: () => void;
@@ -6,7 +8,9 @@ type ButtonProps = {
 function Button({ buttonText, onClick }: ButtonProps) {
     return (
         <>
-            <button onClick={onClick}>{buttonText}</button>
+            <button className={styles.button} onClick={onClick}>
+                {buttonText}
+            </button>
         </>
     );
 }

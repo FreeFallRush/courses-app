@@ -8,9 +8,9 @@ It means we have added all required dependencies and setup everything, so you do
 
 There are already predefined files:
 
--   `src/App.tsx`: main application component, we expect you to render components you create inside of it;
--   `index.html`: HTML page we render our application;
--   `src/main.tsx`: our application entry point, here you must put the logic for rendering `<App>` component and putting it on the page. By default it is empty.
+- `src/App.tsx`: main application component, we expect you to render components you create inside of it;
+- `index.html`: HTML page we render our application;
+- `src/main.tsx`: our application entry point, here you must put the logic for rendering `<App>` component and putting it on the page. By default it is empty.
 - Other files you see also have their purpose, so please, don't delete them.
 
 ### Please, read carefully all recommendations below:
@@ -74,4 +74,3 @@ There are already predefined files:
     ```
 
     It starts application and updates it when you change something.
-

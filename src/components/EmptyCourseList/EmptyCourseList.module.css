@@ -1,0 +1,20 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 80vh;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .mainContainer {
+        padding: 2rem;
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 1.5rem;
+    }
+}

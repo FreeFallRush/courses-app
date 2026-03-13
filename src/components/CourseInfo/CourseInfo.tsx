@@ -1,9 +1,10 @@
 import Button from "../../common/Button/Button";
 import getCourseDuration from "../../helpers/getCourseDuration";
 import formatCreationDate from "../../helpers/formatCreationDate";
+import { CourseInfoProps, Course, Author } from "./CourseInfo.types";
 
-function CourseInfo({ course, authors = [] }) {
-    const defaultCourse = {
+function CourseInfo({ course, authors = [] }: CourseInfoProps) {
+    const defaultCourse: Course = {
         id: "default-id",
         title: "Course 1",
         description: "Course 1 description",
@@ -11,7 +12,7 @@ function CourseInfo({ course, authors = [] }) {
         duration: 60,
         authors: ["id2", "id3"],
     };
-    const defaultAuthors = [
+    const defaultAuthors: Author[] = [
         { id: "id2", name: "name2" },
         { id: "id3", name: "name3" },
     ];

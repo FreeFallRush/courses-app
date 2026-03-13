@@ -1,5 +1,6 @@
 import Button from "../../../../common/Button/Button";
 import { getCourseDuration } from "../../../../helpers/getCourseDuration";
+import formatCreationDate from "../../../../helpers/formatCreationDate";
 import { CourseCardProps } from "./CourseCard.types";
 import styles from "./CourseCard.module.css";
 
@@ -18,10 +19,18 @@ function CourseCard({
                     <p className={styles.description}>{description}</p>
                 </div>
                 <div className={styles.rightCardSide}>
-                    <p>{authorNames}</p>
-                    <p>Duration: {getCourseDuration(duration)}</p>
+                    <p className={styles.author}>
+                        <strong>Authors:</strong> {authorNames.join(", ")}
+                    </p>
+                    <p className={styles.duration}>
+                        <strong>Duration:</strong> {getCourseDuration(duration)}
+                    </p>
+                    <p className={styles.date}>
+                        <strong>Created:</strong>{" "}
+                        {formatCreationDate(creationDate)}
+                    </p>
+                    <Button buttonText="SHOW COURSE" />
                 </div>
-                <Button buttonText="SHOW COURSE" />
             </div>
         </div>
     );

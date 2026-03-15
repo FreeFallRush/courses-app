@@ -29,7 +29,7 @@ function CourseCard({
                         <strong>Created:</strong>{" "}
                         {formatCreationDate(creationDate)}
                     </p>
-                    <Button buttonText="SHOW COURSE" />
+                    <Button buttonText="Show Course" />
                 </div>
             </div>
         </div>

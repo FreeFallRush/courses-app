@@ -3,6 +3,7 @@ import { CourseProps } from "./Courses.types";
 import Button from "../../common/Button/Button";
 import EmptyCourseList from "../EmptyCourseList/EmptyCourseList";
 import Header from "../Header/Header";
+import SearchBar from "./components/SearchBar/SearchBar";
 import styles from "./Courses.module.css";
 
 function Courses({ courses, authors }: CourseProps) {
@@ -30,6 +31,7 @@ function Courses({ courses, authors }: CourseProps) {
         <>
             <Header showLogout={true} />
             <div className={styles.container}>
+                <SearchBar />
                 {courses.map((course) => (
                     <CourseCard
                         key={course.id}

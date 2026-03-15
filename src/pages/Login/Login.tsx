@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
+import Header from "../../components/Header/Header";
 import {
     validateEmail,
     validatePassword,
@@ -28,32 +29,35 @@ function Login() {
     };
 
     return (
-        <AuthForm
-            title="Login"
-            fields={[
-                {
-                    label: "Email",
-                    name: "email",
-                    value: email,
-                    onChange: setEmail,
-                    error: errors.email,
-                    type: "email",
-                },
-                {
-                    label: "Password",
-                    name: "password",
-                    value: password,
-                    onChange: setPassword,
-                    error: errors.password,
-                    type: "password",
-                },
-            ]}
-            onSubmit={handleSubmit}
-            submitButtonText="Login"
-            bottomText="If you don't have an account you may"
-            linkText="Registration"
-            onLinkClick={() => {}}
-        />
+        <>
+            <Header showLogout={false} />
+            <AuthForm
+                title="Login"
+                fields={[
+                    {
+                        label: "Email",
+                        name: "email",
+                        value: email,
+                        onChange: setEmail,
+                        error: errors.email,
+                        type: "email",
+                    },
+                    {
+                        label: "Password",
+                        name: "password",
+                        value: password,
+                        onChange: setPassword,
+                        error: errors.password,
+                        type: "password",
+                    },
+                ]}
+                onSubmit={handleSubmit}
+                submitButtonText="Login"
+                bottomText="If you don't have an account you may"
+                linkText="Registration"
+                onLinkClick={() => {}}
+            />
+        </>
     );
 }
 

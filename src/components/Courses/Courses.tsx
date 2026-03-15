@@ -2,6 +2,7 @@ import CourseCard from "./components/CourseCard/CourseCard";
 import { CourseProps } from "./Courses.types";
 import Button from "../../common/Button/Button";
 import EmptyCourseList from "../EmptyCourseList/EmptyCourseList";
+import Header from "../Header/Header";
 import styles from "./Courses.module.css";
 
 function Courses({ courses, authors }: CourseProps) {
@@ -26,19 +27,22 @@ function Courses({ courses, authors }: CourseProps) {
     };
 
     return (
-        <div className={styles.container}>
-            {courses.map((course) => (
-                <CourseCard
-                    key={course.id}
-                    title={course.title}
-                    description={course.description}
-                    duration={course.duration}
-                    creationDate={course.creationDate}
-                    authorNames={getAuthors(course.authors)}
-                />
-            ))}
-            <Button buttonText="Add new course" />
-        </div>
+        <>
+            <Header showLogout={true} />
+            <div className={styles.container}>
+                {courses.map((course) => (
+                    <CourseCard
+                        key={course.id}
+                        title={course.title}
+                        description={course.description}
+                        duration={course.duration}
+                        creationDate={course.creationDate}
+                        authorNames={getAuthors(course.authors)}
+                    />
+                ))}
+                <Button buttonText="Add new course" />
+            </div>
+        </>
     );
 }
 export default Courses;

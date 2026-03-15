@@ -36,7 +36,7 @@ function AuthForm({
                             )}
                         </div>
                     ))}
-                    |<Button buttonText={submitButtonText} />
+                    <Button buttonText={submitButtonText} />
                 </div>
                 {bottomText && (
                     <p className={styles.bottomText}>

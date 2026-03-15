@@ -41,3 +41,122 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+.error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.durationWrapper {
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+    align-content: center;
+    gap: 2rem;
+}
+
+.durationInput {
+    flex: 1;
+}
+
+.durationDisplay {
+    flex: 1;
+    color: #444;
+    align-self: flex-end;
+}
+
+.authorsSection {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.authorsColumn,
+.courseAuthorsColumn {
+    flex: 1;
+}
+
+.authorsColumn {
+    flex: 3;
+}
+.courseAuthorsColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-end;
+}
+
+.authorInputRow {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.authorInputRow input {
+    flex: 2;
+}
+
+.authorList {
+    margin-top: 1rem;
+}
+
+.emptyText {
+    color: #888;
+    font-size: 0.95rem;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: 70%;
+    }
+    .heading {
+        font-size: 24px;
+        text-align: center;
+        padding-right: 0;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    .sectionTitle {
+        font-size: 20px;
+    }
+
+    .durationWrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .courseAuthorsColumn {
+        align-items: stretch;
+    }
+
+    .authorsSection {
+        flex-direction: column;
+    }
+
+    .authorInputRow {
+        flex-direction: column;
+    }
+
+    .authorInputRow input,
+    .authorInputRow button {
+        width: 100%;
+    }
+
+    .buttonRow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .durationDisplay {
+        align-self: flex-start;
+    }
+}

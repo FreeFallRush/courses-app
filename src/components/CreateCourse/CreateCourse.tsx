@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import AuthorItem from "../AuthorItem/AuthorItem";
 import Button from "../../common/Button/Button";
-import formatCreationDate from "../../helpers/formatCreationDate";
+import AuthorItem from "../AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
-
+import formatCreationDate from "../../helpers/formatCreationDate";
 import styles from "./CreateCourse.module.css";
 
-function CreateCourse() {
+const CreateCourse = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState("");
@@ -81,6 +80,7 @@ function CreateCourse() {
             duration: +duration,
             authors: courseAuthors.map((a) => a.id),
         };
+        console.log("Created course:", newCourse);
 
         setTitle("");
         setDescription("");
@@ -101,6 +101,9 @@ function CreateCourse() {
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Input text"
                         />
+                        {errors.title && (
+                            <p className={styles.error}>{errors.title}</p>
+                        )}
 
                         <label>Description</label>
                         <textarea
@@ -109,72 +112,96 @@ function CreateCourse() {
                             placeholder="Input text"
                             rows={4}
                         />
+                        {errors.description && (
+                            <p className={styles.error}>{errors.description}</p>
+                        )}
                     </div>
                 </div>
 
                 <div className={styles.section}>
                     <h3 className={styles.sectionTitle}>Duration</h3>
-                    <div>
-                        <label>Duration</label>
-                        <input
-                            type="number"
-                            value={duration}
-                            onChange={(e) => setDuration(e.target.value)}
-                            placeholder="Input text"
-                        />
+                    <div className={styles.durationWrapper}>
+                        <div className={styles.durationInput}>
+                            <label>Duration</label>
+                            <input
+                                type="number"
+                                min={1}
+                                value={duration}
+                                onChange={(e) => setDuration(e.target.value)}
+                                placeholder="Input text"
+                            />
+                            {errors.duration && (
+                                <p className={styles.error}>
+                                    {errors.duration}
+                                </p>
+                            )}
+                        </div>
+                        <div className={styles.durationDisplay}>
+                            <p>{getCourseDuration(Number(duration))}</p>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <h3 className={styles.sectionTitle}>Authors</h3>
-                    <label>Author Name</label>
-                    <div>
-                        <input
-                            value={authorName}
-                            onChange={(e) => setAuthorName(e.target.value)}
-                            placeholder="Input text"
-                        />
-                        <Button
-                            buttonText="Create Author"
-                            onClick={handleCreateAuthor}
-                        />
+                <div className={styles.authorsSection}>
+                    <div className={styles.authorsColumn}>
+                        <h3 className={styles.sectionTitle}>Authors</h3>
+
+                        <label>Author Name</label>
+                        <div className={styles.authorInputRow}>
+                            <input
+                                value={authorName}
+                                onChange={(e) => setAuthorName(e.target.value)}
+                                placeholder="Input text"
+                            />
+                            <Button
+                                buttonText="Create Author"
+                                onClick={handleCreateAuthor}
+                            />
+                        </div>
+                        {errors.authorName && (
+                            <p className={styles.error}>{errors.authorName}</p>
+                        )}
+
+                        <div className={styles.authorList}>
+                            <h4>Authors List</h4>
+                            {authors.length > 0 ? (
+                                authors.map((author) => (
+                                    <AuthorItem
+                                        key={author.id}
+                                        name={author.name}
+                                        onAdd={() => handleAddAuthor(author)}
+                                        onDelete={() =>
+                                            handleDeleteAuthorFromAuthorsList(
+                                                author
+                                            )
+                                        }
+                                    />
+                                ))
+                            ) : (
+                                <p>No available authors</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={styles.courseAuthorsColumn}>
+                        <h3 className={styles.sectionTitle}>Course Authors</h3>
+                        {courseAuthors.length > 0 ? (
+                            courseAuthors.map((author) => (
+                                <AuthorItem
+                                    key={author.id}
+                                    name={author.name}
+                                    onDelete={() => handleDeleteAuthor(author)}
+                                />
+                            ))
+                        ) : (
+                            <p className={styles.emptyText}>
+                                Author list is empty
+                            </p>
+                        )}
                     </div>
                 </div>
 
-                <div>
-                    <h4>Authors List</h4>
-                    {authors.length > 0 ? (
-                        authors.map((author) => (
-                            <AuthorItem
-                                key={author.id}
-                                name={author.name}
-                                onAdd={() => handleAddAuthor(author)}
-                                onDelete={() =>
-                                    handleDeleteAuthorFromAuthorsList(author)
-                                }
-                            />
-                        ))
-                    ) : (
-                        <p>No available authors</p>
-                    )}
-                </div>
-
-                <div>
-                    <h3 className={styles.sectionTitle}>Course Authors</h3>
-                    {courseAuthors.length > 0 ? (
-                        courseAuthors.map((author) => (
-                            <AuthorItem
-                                key={author.id}
-                                name={author.name}
-                                onDelete={() => handleDeleteAuthor(author)}
-                            />
-                        ))
-                    ) : (
-                        <p>Author list is empty</p>
-                    )}
-                </div>
-
-                <div>
+                <div className={styles.buttonRow}>
                     <Button buttonText="Cancel" onClick={handleCreateCourse} />
                     <Button
                         buttonText="Create Course"
@@ -184,6 +211,6 @@ function CreateCourse() {
             </div>
         </>
     );
-}
+};
 
 export default CreateCourse;

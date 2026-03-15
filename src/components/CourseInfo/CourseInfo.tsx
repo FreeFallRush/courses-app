@@ -2,6 +2,7 @@ import Button from "../../common/Button/Button";
 import getCourseDuration from "../../helpers/getCourseDuration";
 import formatCreationDate from "../../helpers/formatCreationDate";
 import { CourseInfoProps, Course, Author } from "./CourseInfo.types";
+import Header from "../Header/Header";
 
 function CourseInfo({ course, authors = [] }: CourseInfoProps) {
     const defaultCourse: Course = {
@@ -33,31 +34,30 @@ function CourseInfo({ course, authors = [] }: CourseInfoProps) {
         }
     }
     return (
-        <div>
-            {" "}
-            <p>ID: {currentCourse.id}</p> <h2>{currentCourse.title}</h2>{" "}
-            <p>{currentCourse.description}</p>{" "}
-            <p>
-                {" "}
-                Duration:{" "}
-                <span>{getCourseDuration(currentCourse.duration)}</span>{" "}
-            </p>{" "}
-            <p>
-                {" "}
-                Created:{" "}
-                <span>
-                    {formatCreationDate(currentCourse.creationDate)}
-                </span>{" "}
-            </p>{" "}
-            <p>
-                {" "}
-                Authors:{" "}
-                {authorNames.length > 0
-                    ? authorNames.join(", ")
-                    : "Unknown"}{" "}
-            </p>{" "}
-            <Button buttonText="Back to courses" />{" "}
-        </div>
+        <>
+            <div>
+                <Header showLogout={true} userName="Harry Potter" />
+                <p>ID: {currentCourse.id}</p> <h2>{currentCourse.title}</h2>
+                <p>{currentCourse.description}</p>
+                <p>
+                    Duration:
+                    <span>{getCourseDuration(currentCourse.duration)}</span>
+                </p>
+                <p>
+                    Created:
+                    <span>
+                        {formatCreationDate(currentCourse.creationDate)}
+                    </span>
+                </p>
+                <p>
+                    Authors:
+                    {authorNames.length > 0
+                        ? authorNames.join(", ")
+                        : "Unknown"}
+                </p>
+                <Button buttonText="Back to courses" />
+            </div>
+        </>
     );
 }
 export default CourseInfo;

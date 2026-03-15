@@ -36,6 +36,23 @@ function CreateCourse() {
         setErrors((prev) => ({ ...prev, authorName: "" }));
     };
 
+    const handleAddAuthor = (author: { id: string; name: string }) => {
+        setCourseAuthors((prev) => [...prev, author]);
+        setAuthors((prev) => prev.filter((a) => a.id !== author.id));
+    };
+
+    const handleDeleteAuthor = (author: { id: string; name: string }) => {
+        setAuthors((prev) => prev.filter((a) => a.id !== author.id));
+        setCourseAuthors((prev) => prev.filter((a) => a.id !== author.id));
+    };
+
+    const handleDeleteAuthorFromAuthorsList = (author: {
+        id: string;
+        name: string;
+    }) => {
+        setAuthors((prev) => prev.filter((a) => a.id !== author.id));
+    };
+
     return (
         <>
             <h2 className={styles.heading}>Course Edit/Create Page</h2>
@@ -110,7 +127,7 @@ function CreateCourse() {
                 <div>
                     <h3 className={styles.sectionTitle}>Course Authors</h3>
                     {courseAuthors.length > 0 ? (
-                        courseAuthors.concatmap((author) => (
+                        courseAuthors.map((author) => (
                             <AuthorItem
                                 key={author.id}
                                 name={author.name}

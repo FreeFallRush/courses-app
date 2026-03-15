@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
@@ -90,6 +91,7 @@ const CreateCourse = () => {
 
     return (
         <>
+        <Header showLogout={true} userName="Harry Potter" />
             <h2 className={styles.heading}>Course Edit/Create Page</h2>
             <div className={styles.container}>
                 <div className={styles.section}>

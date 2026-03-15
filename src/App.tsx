@@ -1,13 +1,13 @@
 import Courses from "./components/Courses/Courses";
 import { mockedCoursesList, mockedAuthorsList } from "./constants";
-import CourseInfo from "./components/CourseInfo/CourseInfo";
+import CreateCourse from "./components/CreateCourse/CreateCourse";
 
 import "./App.css";
 
 function App() {
     return (
         <>
-            <CourseInfo />
+            <CreateCourse />
             <Courses courses={mockedCoursesList} authors={mockedAuthorsList} />
         </>
     );

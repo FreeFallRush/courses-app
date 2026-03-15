@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
+import Header from "../../components/Header/Header";
 import {
     validateName,
     validateEmail,
@@ -36,7 +37,8 @@ function Registration() {
     };
 
     return (
-        <div>
+        <>
+            <Header showLogout={false} />
             <AuthForm
                 title="Registration"
                 fields={[
@@ -70,7 +72,7 @@ function Registration() {
                 linkText="Login"
                 onLinkClick={() => {}}
             />
-        </div>
+        </>
     );
 }
 

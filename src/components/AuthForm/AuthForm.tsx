@@ -29,7 +29,16 @@ function AuthForm({
                             />
                         </div>
                     ))}
+                    |<Button buttonText={submitButtonText} />
                 </div>
+                {bottomText && (
+                    <p>
+                        {bottomText}{" "}
+                        {linkText && onLinkClick && (
+                            <span onClick={onLinkClick}>{linkText}</span>
+                        )}
+                    </p>
+                )}
             </form>
         </div>
     );

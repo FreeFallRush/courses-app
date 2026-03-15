@@ -11,6 +11,7 @@ export type AuthFormProps = {
     title: string;
     fields: FieldConfig[];
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    submitButtonText: string;
     bottomText?: string;
     linkText?: string;
     onLinkClick?: () => void;

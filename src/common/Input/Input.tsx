@@ -1,4 +1,5 @@
 import { InputProps } from "./Input.types";
+import styles from "./Input.module.css";
 
 function Input({
     labelText,
@@ -9,14 +10,15 @@ function Input({
     isInvalid = false,
 }: InputProps) {
     return (
-        <div>
-            <label>
+        <div className={styles.inputContainer}>
+            <label className={styles.label}>
                 {labelText}
                 <input
                     type={type}
                     placeholder={placeholderText}
                     value={value}
                     onChange={onChange}
+                    className={`${styles.input} ${isInvalid ? styles.invalid : ""}`}
                 />
             </label>
         </div>

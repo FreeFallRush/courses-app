@@ -30,6 +30,10 @@ function Registration() {
                         onChange: setPassword,
                     },
                 ]}
+                submitButtonText="Login"
+                bottomText="If you have an account you may"
+                linkText="Login"
+                onLinkClick={() => {}}
             />
         </div>
     );

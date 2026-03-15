@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import Button from "../../common/Button/Button";
 
@@ -11,6 +12,27 @@ function CreateCourse() {
     const [courseAuthors, setCourseAuthors] = useState<
         { id: string; name: string }[]
     >([]);
+
+    const [errors, setErrors] = useState({
+        title: "",
+        description: "",
+        duration: "",
+        authorName: "",
+    });
+
+    const handleCreateAuthor = () => {
+        if (authorName.trim().length < 2) {
+            setErrors((prev) => ({
+                ...prev,
+                authorName: "Author name must be at least 2 characters",
+            }));
+            return;
+        }
+        const newAuthor = { id: uuidv4(), name: authorName };
+        setAuthors((prev) => [...prev, newAuthor]);
+        setAuthorName("");
+        setErrors((prev) => ({ ...prev, authorName: "" }));
+    };
 
     return (
         <>
@@ -54,6 +76,10 @@ function CreateCourse() {
                             value={authorName}
                             onChange={(e) => setAuthorName(e.target.value)}
                             placeholder="Input text"
+                        />
+                        <Button
+                            buttonText="Create Author"
+                            onClick={handleCreateAuthor}
                         />
                     </div>
                 </div>

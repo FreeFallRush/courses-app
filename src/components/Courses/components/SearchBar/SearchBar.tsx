@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../../../../common/Input/Input";
 import Button from "../../../../common/Button/Button";
+import styles from "./SearchBar.module.css";
 
 type SearchBarProps = {
     onSearch: (query: string) => void;
@@ -23,7 +24,7 @@ function SearchBar({ onSearch }: SearchBarProps) {
     };
 
     return (
-        <div>
+        <div className={styles.searchBar}>
             <Input
                 labelText=""
                 placeholderText="Input text"

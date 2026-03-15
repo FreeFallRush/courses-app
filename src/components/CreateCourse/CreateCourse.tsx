@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import Button from "../../common/Button/Button";
 
+import styles from "./CreateCourse.module.css";
+
 function CreateCourse() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -36,27 +38,30 @@ function CreateCourse() {
 
     return (
         <>
-            <h2>Course Edit/Create Page</h2>
-            <div>
-                <h3>Main Info</h3>
-                <div>
-                    <label>Title</label>
-                    <input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Input text"
-                    />
+            <h2 className={styles.heading}>Course Edit/Create Page</h2>
+            <div className={styles.container}>
+                <div className={styles.section}>
+                    <h3 className={styles.sectionTitle}>Main Info</h3>
+                    <div className={styles.formGroup}>
+                        <label>Title</label>
+                        <input
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Input text"
+                        />
 
-                    <label>Description</label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Input text"
-                        rows={4}
-                    />
+                        <label>Description</label>
+                        <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Input text"
+                            rows={4}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <h3>Duration</h3>
+
+                <div className={styles.section}>
+                    <h3 className={styles.sectionTitle}>Duration</h3>
                     <div>
                         <label>Duration</label>
                         <input
@@ -69,7 +74,7 @@ function CreateCourse() {
                 </div>
 
                 <div>
-                    <h3>Authors</h3>
+                    <h3 className={styles.sectionTitle}>Authors</h3>
                     <label>Author Name</label>
                     <div>
                         <input
@@ -103,7 +108,7 @@ function CreateCourse() {
                 </div>
 
                 <div>
-                    <h3>Course Authors</h3>
+                    <h3 className={styles.sectionTitle}>Course Authors</h3>
                     {courseAuthors.length > 0 ? (
                         courseAuthors.concatmap((author) => (
                             <AuthorItem

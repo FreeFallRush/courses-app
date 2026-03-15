@@ -2,6 +2,8 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import Button from "../../common/Button/Button";
+import formatCreationDate from "../../helpers/formatCreationDate";
+import getCourseDuration from "../../helpers/getCourseDuration";
 
 import styles from "./CreateCourse.module.css";
 
@@ -51,6 +53,39 @@ function CreateCourse() {
         name: string;
     }) => {
         setAuthors((prev) => prev.filter((a) => a.id !== author.id));
+    };
+
+    const validateForm = () => {
+        const newErrors = {
+            title: title.trim().length < 2 ? "Title is required." : "",
+            description:
+                description.trim().length < 2 ? "Description is required." : "",
+            duration: +duration <= 0 ? "Duration is required." : "",
+            authorName: "",
+        };
+        setErrors(newErrors);
+        return Object.values(newErrors).every((err) => err === "");
+    };
+
+    const handleCreateCourse = () => {
+        if (!validateForm()) return;
+
+        const creationDate = formatCreationDate(
+            new Date().toLocaleDateString("en-US")
+        );
+        const newCourse = {
+            id: uuidv4(),
+            title: title.trim(),
+            description: description.trim(),
+            creationDate,
+            duration: +duration,
+            authors: courseAuthors.map((a) => a.id),
+        };
+
+        setTitle("");
+        setDescription("");
+        setDuration("");
+        setCourseAuthors([]);
     };
 
     return (
@@ -140,8 +175,11 @@ function CreateCourse() {
                 </div>
 
                 <div>
-                    <Button buttonText="Cancel" />
-                    <Button buttonText="Create Course" />
+                    <Button buttonText="Cancel" onClick={handleCreateCourse} />
+                    <Button
+                        buttonText="Create Course"
+                        onClick={handleCreateCourse}
+                    />
                 </div>
             </div>
         </>

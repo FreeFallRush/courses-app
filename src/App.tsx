@@ -1,14 +1,14 @@
 import Header from "./components/Header/Header";
 import Courses from "./components/Courses/Courses";
 import { mockedCoursesList, mockedAuthorsList } from "./constants";
-import Login from "./pages/Login/Login";
+import AuthorItem from "./components/AuthorItem/AuthorItem";
 
 import "./App.css";
 
 function App() {
     return (
         <>
-            <Login />
+            <AuthorItem />
             <Header />
             <Courses courses={mockedCoursesList} authors={mockedAuthorsList} />
         </>

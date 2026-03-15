@@ -1,6 +1,7 @@
 import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
 import { AuthFormProps } from "./AuthForm.types";
+import styles from "./AuthForm.module.css";
 
 function AuthForm({
     title,
@@ -12,12 +13,12 @@ function AuthForm({
     onLinkClick,
 }: AuthFormProps) {
     return (
-        <div>
-            <h3>{title}</h3>
-            <form onSubmit={onSubmit}>
+        <div className={styles.container}>
+            <h3 className={styles.title}>{title}</h3>
+            <form className={styles.formContent} onSubmit={onSubmit}>
                 <div>
                     {fields.map((field) => (
-                        <div key={field.name}>
+                        <div className={styles.inputGroup} key={field.name}>
                             <Input
                                 labelText={field.label}
                                 value={field.value}
@@ -26,16 +27,24 @@ function AuthForm({
                                 }
                                 placeholderText="Input text"
                                 type={field.type || "text"}
+                                isInvalid={!!field.error}
                             />
+                            {field.error && (
+                                <p className={styles.errorText}>
+                                    {field.error}
+                                </p>
+                            )}
                         </div>
                     ))}
                     |<Button buttonText={submitButtonText} />
                 </div>
                 {bottomText && (
-                    <p>
+                    <p className={styles.bottomText}>
                         {bottomText}{" "}
                         {linkText && onLinkClick && (
-                            <span onClick={onLinkClick}>{linkText}</span>
+                            <span className={styles.link} onClick={onLinkClick}>
+                                {linkText}
+                            </span>
                         )}
                     </p>
                 )}

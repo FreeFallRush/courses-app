@@ -7,7 +7,13 @@ function Header({ showLogout = true, userName }: HeaderProps) {
     return (
         <header className={styles.header}>
             <Logo />
-            {showLogout && <div>{userName && <span>{userName}</span>}</div>}
+            {showLogout && (
+                <div className={styles.userInfo}>
+                    {userName && (
+                        <span className={styles.userName}>{userName}</span>
+                    )}
+                </div>
+            )}
             <Button buttonText="Logout" />
         </header>
     );

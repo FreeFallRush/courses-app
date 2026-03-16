@@ -1,62 +1,46 @@
+import { useParams, Link } from "react-router-dom";
 import Button from "../../common/Button/Button";
 import getCourseDuration from "../../helpers/getCourseDuration";
 import formatCreationDate from "../../helpers/formatCreationDate";
-import { CourseInfoProps, Course, Author } from "./CourseInfo.types";
 import Header from "../Header/Header";
+import { CourseInfoProps } from "./CourseInfo.types";
 
-function CourseInfo({ course, authors = [] }: CourseInfoProps) {
-    const defaultCourse: Course = {
-        id: "default-id",
-        title: "Course 1",
-        description: "Course 1 description",
-        creationDate: "01/01/2025",
-        duration: 60,
-        authors: ["id2", "id3"],
-    };
-    const defaultAuthors: Author[] = [
-        { id: "id2", name: "name2" },
-        { id: "id3", name: "name3" },
-    ];
-    const currentCourse = course ?? defaultCourse;
-    const hasValidAuthors =
-        authors.length > 0 &&
-        authors.some((a) => currentCourse.authors.includes(a.id));
-    const resolvedAuthors = hasValidAuthors ? authors : defaultAuthors;
+function CourseInfo({ courses = [], authors = [] }: CourseInfoProps) {
+    const { courseId } = useParams<{ courseId: string }>();
+
+    const course = courses.find((c) => c.id === courseId);
+
+    if (!course) {
+        return <p>Course not found.</p>;
+    }
+
     const authorMap: { [key: string]: string } = {};
-    for (const author of resolvedAuthors) {
-        authorMap[author.id] = author.name;
-    }
-    const authorNames: string[] = [];
-    for (const authorId of currentCourse.authors) {
-        const name = authorMap[authorId];
-        if (name) {
-            authorNames.push(name);
-        }
-    }
+    authors.forEach((a) => {
+        authorMap[a.id] = a.name;
+    });
+
+    const authorNames = course.authors.map((id) => authorMap[id] || "Unknown");
+
     return (
         <>
-            <div>
-                <Header showLogout={true} userName="Harry Potter" />
-                <p>ID: {currentCourse.id}</p> <h2>{currentCourse.title}</h2>
-                <p>{currentCourse.description}</p>
-                <p>
-                    Duration:
-                    <span>{getCourseDuration(currentCourse.duration)}</span>
-                </p>
-                <p>
-                    Created:
-                    <span>
-                        {formatCreationDate(currentCourse.creationDate)}
-                    </span>
-                </p>
-                <p>
-                    Authors:
-                    {authorNames.length > 0
-                        ? authorNames.join(", ")
-                        : "Unknown"}
-                </p>
+            <Header showLogout={true} userName="Harry Potter" />
+            <h2>{course.title}</h2>
+            <p>{course.description}</p>
+            <p>
+                Duration:
+                <span>{getCourseDuration(course.duration)}</span>
+            </p>
+            <p>
+                Created:
+                <span>{formatCreationDate(course.creationDate)}</span>
+            </p>
+            <p>
+                Authors:
+                {authorNames.join(", ")}
+            </p>
+            <Link to="/courses">
                 <Button buttonText="Back to courses" />
-            </div>
+            </Link>
         </>
     );
 }

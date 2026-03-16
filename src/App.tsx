@@ -7,6 +7,7 @@ import {
 import Registration from "./components/Registration/Registration";
 import Login from "./components/Login/Login";
 import Courses from "./components/Courses/Courses";
+import CourseInfo from "./components/CourseInfo/CourseInfo";
 import { mockedCoursesList, mockedAuthorsList } from "./constants";
 
 import "./App.css";
@@ -60,6 +61,18 @@ function App() {
                         element={
                             <PrivateRoute>
                                 <Courses
+                                    courses={mockedCoursesList}
+                                    authors={mockedAuthorsList}
+                                />
+                            </PrivateRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/courses/:courseId"
+                        element={
+                            <PrivateRoute>
+                                <CourseInfo
                                     courses={mockedCoursesList}
                                     authors={mockedAuthorsList}
                                 />

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AuthForm from "../../components/AuthForm/AuthForm";
-import Header from "../../components/Header/Header";
+import AuthForm from "../AuthForm/AuthForm";
+import Header from "../Header/Header";
 import {
     validateEmail,
     validatePassword,

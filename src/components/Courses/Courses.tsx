@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CourseCard from "./components/CourseCard/CourseCard";
 import { CourseProps } from "./Courses.types";
 import Button from "../../common/Button/Button";
@@ -9,6 +10,8 @@ import styles from "./Courses.module.css";
 
 function Courses({ courses, authors }: CourseProps) {
     const [filteredCourses, setFilteredCourses] = useState(courses);
+
+    const navigate = useNavigate();
 
     const authorMap: { [id: string]: string } = {};
     for (const author of authors) {
@@ -64,7 +67,10 @@ function Courses({ courses, authors }: CourseProps) {
                     ))
                 )}
 
-                <Button buttonText="Add new course" />
+                <Button
+                    buttonText="Add New Course"
+                    onClick={() => navigate("/courses/add")}
+                />
             </div>
         </>
     );

@@ -87,9 +87,9 @@ function Login() {
                 ]}
                 onSubmit={handleSubmit}
                 submitButtonText="Login"
-                bottomText="If you don't have an account you may"
+                bottomText="If you don't have an account you may "
                 linkText="Registration"
-                onLinkClick={() => {}}
+                linkTo="/registration"
             />
         </>
     );

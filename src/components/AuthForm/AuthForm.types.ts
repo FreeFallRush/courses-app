@@ -15,4 +15,5 @@ export type AuthFormProps = {
     bottomText?: string;
     linkText?: string;
     onLinkClick?: () => void;
+    linkTo?: string;
 };

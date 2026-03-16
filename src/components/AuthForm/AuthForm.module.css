@@ -57,6 +57,8 @@
 .link {
     font-weight: 700;
     cursor: pointer;
+    color: #333e48;
+    text-decoration: none;
 }
 
 @media (max-width: 768px) {

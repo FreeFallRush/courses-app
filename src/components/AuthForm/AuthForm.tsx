@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
 import { AuthFormProps } from "./AuthForm.types";
@@ -10,7 +11,7 @@ function AuthForm({
     submitButtonText,
     bottomText,
     linkText,
-    onLinkClick,
+    linkTo,
 }: AuthFormProps) {
     return (
         <div className={styles.container}>
@@ -40,11 +41,11 @@ function AuthForm({
                 </div>
                 {bottomText && (
                     <p className={styles.bottomText}>
-                        {bottomText}{" "}
-                        {linkText && onLinkClick && (
-                            <span className={styles.link} onClick={onLinkClick}>
+                        {bottomText}
+                        {linkText && linkTo && (
+                            <Link to={linkTo} className={styles.link}>
                                 {linkText}
-                            </span>
+                            </Link>
                         )}
                     </p>
                 )}

@@ -13,6 +13,6 @@ export type Author = {
 };
 
 export type CourseInfoProps = {
-    course?: Course;
+    courses: Course[];
     authors?: Author[];
 };

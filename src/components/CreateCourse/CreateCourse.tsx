@@ -1,28 +1,35 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
-import formatCreationDate from "../../helpers/formatCreationDate";
+import { useAuthors, Author } from "../../hooks/useAuthors";
+import { useCourseForm } from "../../hooks/useCourseForm";
 import styles from "./CreateCourse.module.css";
 
 const CreateCourse = () => {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [duration, setDuration] = useState("");
-    const [authorName, setAuthorName] = useState("");
-    const [authors, setAuthors] = useState<{ id: string; name: string }[]>([]);
-    const [courseAuthors, setCourseAuthors] = useState<
-        { id: string; name: string }[]
-    >([]);
+    const {
+        authors,
+        setAuthors,
+        courseAuthors,
+        setCourseAuthors,
+        addAuthor,
+        deleteAuthor,
+        deleteAuthorFromList,
+    } = useAuthors();
 
-    const [errors, setErrors] = useState({
-        title: "",
-        description: "",
-        duration: "",
-        authorName: "",
-    });
+    const {
+        title,
+        setTitle,
+        description,
+        setDescription,
+        duration,
+        setDuration,
+        authorName,
+        setAuthorName,
+        errors,
+        setErrors,
+        handleCreateCourse,
+    } = useCourseForm(courseAuthors, () => setCourseAuthors([]));
 
     const handleCreateAuthor = () => {
         if (authorName.trim().length < 2) {
@@ -32,66 +39,19 @@ const CreateCourse = () => {
             }));
             return;
         }
-        const newAuthor = { id: uuidv4(), name: authorName };
+        const newAuthor: Author = {
+            id: crypto.randomUUID(),
+            name: authorName.trim(),
+        };
+
         setAuthors((prev) => [...prev, newAuthor]);
         setAuthorName("");
         setErrors((prev) => ({ ...prev, authorName: "" }));
     };
 
-    const handleAddAuthor = (author: { id: string; name: string }) => {
-        setCourseAuthors((prev) => [...prev, author]);
-        setAuthors((prev) => prev.filter((a) => a.id !== author.id));
-    };
-
-    const handleDeleteAuthor = (author: { id: string; name: string }) => {
-        setAuthors((prev) => prev.filter((a) => a.id !== author.id));
-        setCourseAuthors((prev) => prev.filter((a) => a.id !== author.id));
-    };
-
-    const handleDeleteAuthorFromAuthorsList = (author: {
-        id: string;
-        name: string;
-    }) => {
-        setAuthors((prev) => prev.filter((a) => a.id !== author.id));
-    };
-
-    const validateForm = () => {
-        const newErrors = {
-            title: title.trim().length < 2 ? "Title is required." : "",
-            description:
-                description.trim().length < 2 ? "Description is required." : "",
-            duration: +duration <= 0 ? "Duration is required." : "",
-            authorName: "",
-        };
-        setErrors(newErrors);
-        return Object.values(newErrors).every((err) => err === "");
-    };
-
-    const handleCreateCourse = () => {
-        if (!validateForm()) return;
-
-        const creationDate = formatCreationDate(
-            new Date().toLocaleDateString("en-US")
-        );
-        const newCourse = {
-            id: uuidv4(),
-            title: title.trim(),
-            description: description.trim(),
-            creationDate,
-            duration: +duration,
-            authors: courseAuthors.map((a) => a.id),
-        };
-        console.log("Created course:", newCourse);
-
-        setTitle("");
-        setDescription("");
-        setDuration("");
-        setCourseAuthors([]);
-    };
-
     return (
         <>
-        <Header showLogout={true} userName="Harry Potter" />
+            <Header showLogout={true} userName="Harry Potter" />
             <h2 className={styles.heading}>Course Edit/Create Page</h2>
             <div className={styles.container}>
                 <div className={styles.section}>
@@ -171,11 +131,9 @@ const CreateCourse = () => {
                                     <AuthorItem
                                         key={author.id}
                                         name={author.name}
-                                        onAdd={() => handleAddAuthor(author)}
+                                        onAdd={() => addAuthor(author)}
                                         onDelete={() =>
-                                            handleDeleteAuthorFromAuthorsList(
-                                                author
-                                            )
+                                            deleteAuthorFromList(author)
                                         }
                                     />
                                 ))
@@ -192,7 +150,7 @@ const CreateCourse = () => {
                                 <AuthorItem
                                     key={author.id}
                                     name={author.name}
-                                    onDelete={() => handleDeleteAuthor(author)}
+                                    onDelete={() => deleteAuthor(author)}
                                 />
                             ))
                         ) : (

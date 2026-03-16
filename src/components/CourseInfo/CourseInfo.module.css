@@ -1,0 +1,65 @@
+.wrapper {
+    max-width: 1122px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.infoCardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 4rem 2rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    color: #333e48;
+}
+
+.leftCardContainer,
+.rightCardContainer {
+    flex: 1;
+    min-width: 300px;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.leftCardContainer {
+    padding-right: 2rem;
+    border-right: 1px solid #cfcfcf;
+}
+
+.infoCardTitle {
+    font-weight: 700;
+    font-size: 32px;
+    margin-bottom: 1rem;
+    color: #333e48;
+}
+
+.buttonContainer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+    .infoCardContainer {
+        flex-direction: column;
+        padding: 2rem;
+        width: 80%;
+    }
+
+    .leftCardContainer,
+    .rightCardContainer {
+        min-width: 90%;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .leftCardContainer {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #cfcfcf;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+}

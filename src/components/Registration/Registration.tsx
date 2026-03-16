@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthForm from "../AuthForm/AuthForm";
 import Header from "../Header/Header";
 import {
@@ -17,7 +18,9 @@ function Registration() {
         password: "",
     });
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const newErrors = {
@@ -33,7 +36,36 @@ function Registration() {
         );
         if (hasErrors) return;
 
-        console.log({ name: "", email: "", password: "" });
+        const newUser = { name, email, password };
+
+        try {
+            const response = await fetch(
+                "https://react-courses-app-1.onrender.com/register",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newUser),
+                }
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Registration error data:", errorData);
+
+                const errorMessage = Array.isArray(errorData.errors)
+                    ? errorData.errors.join(", ")
+                    : errorData.errors || errorData.message || "Unknown error";
+
+                alert(`Registration failed: ${errorMessage}`);
+                return;
+            }
+            navigate("/login");
+        } catch (error) {
+            console.error("Registration error:", error);
+            alert("Something went wrong. Please try again.");
+        }
     };
 
     return (

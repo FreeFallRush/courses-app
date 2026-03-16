@@ -8,6 +8,7 @@ import Registration from "./components/Registration/Registration";
 import Login from "./components/Login/Login";
 import Courses from "./components/Courses/Courses";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
+import CreateCourse from "./components/CreateCourse/CreateCourse";
 import { mockedCoursesList, mockedAuthorsList } from "./constants";
 
 import "./App.css";
@@ -76,6 +77,15 @@ function App() {
                                     courses={mockedCoursesList}
                                     authors={mockedAuthorsList}
                                 />
+                            </PrivateRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/courses/add"
+                        element={
+                            <PrivateRoute>
+                                <CreateCourse />
                             </PrivateRoute>
                         }
                     />

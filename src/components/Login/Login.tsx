@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthForm from "../AuthForm/AuthForm";
 import Header from "../Header/Header";
 import {
@@ -11,7 +12,9 @@ function Login() {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ email: "", password: "" });
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const newErrors = {
@@ -25,7 +28,38 @@ function Login() {
         );
         if (hasErrors) return;
 
-        console.log({ email: "", password: "" });
+        const userData = { email, password };
+
+        try {
+            const response = await fetch(
+                "https://react-courses-app-1.onrender.com/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userData),
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result?.result) {
+                alert(
+                    "Login failed: " + (result.errors || "Invalid credentials")
+                );
+                return;
+            }
+            localStorage.setItem("token", result.result);
+
+            if (result.user?.name) {
+                localStorage.setItem("userName", result.user.name);
+            }
+            navigate("/courses");
+        } catch (error) {
+            console.error("Login error: ", error);
+            alert("An error occurred. Please try again.");
+        }
     };
 
     return (

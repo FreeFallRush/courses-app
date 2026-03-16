@@ -14,6 +14,14 @@ import "./App.css";
 function App() {
     const token = localStorage.getItem("token");
 
+    const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+        return token ? children : <Navigate to="/courses" />;
+    };
+
+    const PublicRoute = ({ children }: { children: JSX.Element }) => {
+        return token ? children : <Navigate to="/courses" />;
+    };
+
     return (
         <>
             <Router>
@@ -28,15 +36,34 @@ function App() {
                             )
                         }
                     />
-                    <Route path="/registration" element={<Registration />} />
-                    <Route path="/login" element={<Login />} />
+
+                    <Route
+                        path="/login"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/registration"
+                        element={
+                            <PublicRoute>
+                                <Registration />
+                            </PublicRoute>
+                        }
+                    />
+
                     <Route
                         path="/courses"
                         element={
-                            <Courses
-                                courses={mockedCoursesList}
-                                authors={mockedAuthorsList}
-                            />
+                            <PrivateRoute>
+                                <Courses
+                                    courses={mockedCoursesList}
+                                    authors={mockedAuthorsList}
+                                />
+                            </PrivateRoute>
                         }
                     />
                 </Routes>

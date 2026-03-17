@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "../AuthorItem/AuthorItem";
@@ -17,18 +19,23 @@ type CreateCourseProps = {
 const CreateCourse = ({
     courses,
     setCourses,
-    authors,
-    setAuthors,
+    authors: initialAuthors,
 }: CreateCourseProps) => {
+    const navigate = useNavigate();
+
     const {
         authors,
-        setAuthors,
+        setAuthors: setLocalAuthors,
         courseAuthors,
         setCourseAuthors,
         addAuthor,
         deleteAuthor,
         deleteAuthorFromList,
     } = useAuthors();
+
+    useEffect(() => {
+        setLocalAuthors(initialAuthors);
+    }, [initialAuthors, setLocalAuthors]);
 
     const {
         title,
@@ -44,6 +51,14 @@ const CreateCourse = ({
         handleCreateCourse,
     } = useCourseForm(courseAuthors, () => setCourseAuthors([]));
 
+    const onCreateCourse = () => {
+        const newCourse = handleCreateCourse();
+        if (newCourse) {
+            setCourses([...courses, newCourse]);
+            navigate("/courses");
+        }
+    };
+
     const handleCreateAuthor = () => {
         if (authorName.trim().length < 2) {
             setErrors((prev) => ({
@@ -52,19 +67,20 @@ const CreateCourse = ({
             }));
             return;
         }
+
         const newAuthor: Author = {
             id: crypto.randomUUID(),
             name: authorName.trim(),
         };
 
-        setAuthors((prev) => [...prev, newAuthor]);
+        setLocalAuthors((prev) => [...prev, newAuthor]);
         setAuthorName("");
         setErrors((prev) => ({ ...prev, authorName: "" }));
     };
 
     return (
         <>
-            <Header showLogout={true} userName="Harry Potter" />
+            <Header />
             <h2 className={styles.heading}>Course Edit/Create Page</h2>
             <div className={styles.container}>
                 <div className={styles.section}>
@@ -175,10 +191,13 @@ const CreateCourse = ({
                 </div>
 
                 <div className={styles.buttonRow}>
-                    <Button buttonText="Cancel" onClick={handleCreateCourse} />
+                    <Button
+                        buttonText="Cancel"
+                        onClick={() => navigate("/courses")}
+                    />
                     <Button
                         buttonText="Create Course"
-                        onClick={handleCreateCourse}
+                        onClick={onCreateCourse}
                     />
                 </div>
             </div>

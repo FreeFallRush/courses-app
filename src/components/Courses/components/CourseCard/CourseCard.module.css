@@ -1,5 +1,6 @@
 .cardContainer {
     padding: 20px 35px;
+    width: 100%;
     max-width: 1122px;
     border-left: 6px solid #333e48;
     box-shadow: 4px 2px 4px 2px rgba(0, 0, 0, 0.1);

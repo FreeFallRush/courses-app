@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -14,6 +15,8 @@ import { mockedCoursesList, mockedAuthorsList } from "./constants";
 import "./App.css";
 
 function App() {
+    const [courses, setCourses] = useState(mockedCoursesList);
+    const [authors, setAuthors] = useState(mockedAuthorsList);
     const token = localStorage.getItem("token");
 
     const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -61,10 +64,7 @@ function App() {
                         path="/courses"
                         element={
                             <PrivateRoute>
-                                <Courses
-                                    courses={mockedCoursesList}
-                                    authors={mockedAuthorsList}
-                                />
+                                <Courses courses={courses} authors={authors} />
                             </PrivateRoute>
                         }
                     />
@@ -74,8 +74,8 @@ function App() {
                         element={
                             <PrivateRoute>
                                 <CourseInfo
-                                    courses={mockedCoursesList}
-                                    authors={mockedAuthorsList}
+                                    courses={courses}
+                                    authors={authors}
                                 />
                             </PrivateRoute>
                         }
@@ -85,7 +85,12 @@ function App() {
                         path="/courses/add"
                         element={
                             <PrivateRoute>
-                                <CreateCourse />
+                                <CreateCourse
+                                    courses={courses}
+                                    setCourses={setCourses}
+                                    authors={authors}
+                                    setAuthors={setAuthors}
+                                />
                             </PrivateRoute>
                         }
                     />

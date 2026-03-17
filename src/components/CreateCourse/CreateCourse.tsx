@@ -2,11 +2,24 @@ import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
-import { useAuthors, Author } from "../../hooks/useAuthors";
+import { Course, Author } from "../Courses/Courses.types";
+import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import styles from "./CreateCourse.module.css";
 
-const CreateCourse = () => {
+type CreateCourseProps = {
+    courses: Course[];
+    setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+    authors: Author[];
+    setAuthors: React.Dispatch<React.SetStateAction<Author[]>>;
+};
+
+const CreateCourse = ({
+    courses,
+    setCourses,
+    authors,
+    setAuthors,
+}: CreateCourseProps) => {
     const {
         authors,
         setAuthors,

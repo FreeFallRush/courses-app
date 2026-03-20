@@ -54,7 +54,7 @@ function Courses({ courses, authors }: CourseProps) {
             <Header />
             <div className={styles.container}>
                 {!isEmpty && (
-                    <div>
+                    <div className={styles.topBar}>
                         <SearchBar onSearch={handleSearch} />
                         <Button
                             buttonText="Add New Course"

@@ -1,22 +1,26 @@
 import { useParams, Link } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
 import Button from "../../common/Button/Button";
 import getCourseDuration from "../../helpers/getCourseDuration";
 import formatCreationDate from "../../helpers/formatCreationDate";
 import Header from "../Header/Header";
-import { CourseInfoProps } from "./CourseInfo.types";
+import { Course, Author } from "./CourseInfo.types";
 import styles from "./CourseInfo.module.css";
 
-function CourseInfo({ courses = [], authors = [] }: CourseInfoProps) {
+function CourseInfo() {
     const { courseId } = useParams<{ courseId: string }>();
 
-    const course = courses.find((c) => c.id === courseId);
+    const courses = useAppSelector((state) => state.courses);
+    const authors = useAppSelector((state) => state.authors);
+
+    const course = courses.find((c: Course) => c.id === courseId);
 
     if (!course) {
         return <p>Course not found.</p>;
     }
 
     const authorMap: { [key: string]: string } = {};
-    authors.forEach((a) => {
+    authors.forEach((a: Author) => {
         authorMap[a.id] = a.name;
     });
 

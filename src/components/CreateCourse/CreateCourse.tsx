@@ -4,24 +4,19 @@ import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
-import { Course, Author } from "../Courses/Courses.types";
+import { Author } from "../Courses/Courses.types";
 import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { addCourse } from "../../store/courses/actions";
+
 import styles from "./CreateCourse.module.css";
 
-type CreateCourseProps = {
-    courses: Course[];
-    setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
-    authors: Author[];
-    setAuthors: React.Dispatch<React.SetStateAction<Author[]>>;
-};
-
-const CreateCourse = ({
-    courses,
-    setCourses,
-    authors: initialAuthors,
-}: CreateCourseProps) => {
+const CreateCourse = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const authorsFromRedux = useAppSelector((state) => state.authors);
 
     const {
         authors,
@@ -34,8 +29,8 @@ const CreateCourse = ({
     } = useAuthors();
 
     useEffect(() => {
-        setLocalAuthors(initialAuthors);
-    }, [initialAuthors, setLocalAuthors]);
+        setLocalAuthors(authorsFromRedux);
+    }, [authorsFromRedux, setLocalAuthors]);
 
     const {
         title,
@@ -54,7 +49,7 @@ const CreateCourse = ({
     const onCreateCourse = () => {
         const newCourse = handleCreateCourse();
         if (newCourse) {
-            setCourses([...courses, newCourse]);
+            dispatch(addCourse(newCourse));
             navigate("/courses");
         }
     };

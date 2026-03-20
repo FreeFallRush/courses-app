@@ -1,23 +1,46 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
     Navigate,
 } from "react-router-dom";
-import Registration from "./components/Registration/Registration";
+
+import { useAppDispatch } from "./store/hooks";
+import { setCourses } from "./store/courses/actions";
+import { setAuthors } from "./store/authors/actions";
+import { getCourses, getAuthors } from "./services";
+
 import Login from "./components/Login/Login";
+import Registration from "./components/Registration/Registration";
 import Courses from "./components/Courses/Courses";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CreateCourse from "./components/CreateCourse/CreateCourse";
-import { mockedCoursesList, mockedAuthorsList } from "./constants";
 
 import "./App.css";
 
 function App() {
-    const [courses, setCourses] = useState(mockedCoursesList);
-    const [authors, setAuthors] = useState(mockedAuthorsList);
+    const dispatch = useAppDispatch();
     const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [coursesData, authorsData] = await Promise.all([
+                    getCourses(),
+                    getAuthors(),
+                ]);
+                dispatch(setCourses(coursesData.result));
+                dispatch(setAuthors(authorsData.result));
+            } catch (error) {
+                console.error("Failed to fetch data:", error);
+            }
+        };
+
+        if (token) {
+            fetchData();
+        }
+    }, [dispatch, token]);
 
     const PrivateRoute = ({ children }: { children: JSX.Element }) => {
         return token ? children : <Navigate to="/login" />;
@@ -32,13 +55,7 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={
-                        token ? (
-                            <Navigate to="/courses" />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
+                    element={<Navigate to={token ? "/courses" : "/login"} />}
                 />
 
                 <Route
@@ -63,7 +80,7 @@ function App() {
                     path="/courses"
                     element={
                         <PrivateRoute>
-                            <Courses courses={courses} authors={authors} />
+                            <Courses />
                         </PrivateRoute>
                     }
                 />
@@ -72,7 +89,7 @@ function App() {
                     path="/courses/:courseId"
                     element={
                         <PrivateRoute>
-                            <CourseInfo courses={courses} authors={authors} />
+                            <CourseInfo />
                         </PrivateRoute>
                     }
                 />
@@ -81,12 +98,7 @@ function App() {
                     path="/courses/add"
                     element={
                         <PrivateRoute>
-                            <CreateCourse
-                                courses={courses}
-                                setCourses={setCourses}
-                                authors={authors}
-                                setAuthors={setAuthors}
-                            />
+                            <CreateCourse />
                         </PrivateRoute>
                     }
                 />

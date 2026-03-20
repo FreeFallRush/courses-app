@@ -1,26 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "../AuthForm/AuthForm";
 import Header from "../Header/Header";
+import AuthForm from "../AuthForm/AuthForm";
 import {
     validateEmail,
     validatePassword,
 } from "../../helpers/getFormValidation";
+import { useAppDispatch } from "../../store/hooks";
+import { setUser } from "../../store/user/actions";
+import { LoginFormErrors } from "../../types/formErrors";
 
-function Login() {
+const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({ email: "", password: "" });
+    const [errors, setErrors] = useState<LoginFormErrors>({
+        email: "",
+        password: "",
+    });
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            if (parsedUser?.token) {
+                navigate("/courses");
+            }
+        }
+    }, [navigate]);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
         const newErrors = {
             email: validateEmail(email),
             password: validatePassword(password),
         };
+
         setErrors(newErrors);
 
         const hasErrors = Object.values(newErrors).some(
@@ -31,16 +49,13 @@ function Login() {
         const userData = { email, password };
 
         try {
-            const response = await fetch(
-                "https://react-courses-app-1.onrender.com/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(userData),
-                }
-            );
+            const response = await fetch("http://localhost:4000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            });
 
             const result = await response.json();
 
@@ -50,11 +65,18 @@ function Login() {
                 );
                 return;
             }
-            localStorage.setItem("token", result.result);
 
-            if (result.user?.name) {
-                localStorage.setItem("userName", result.user.name);
-            }
+            const fullUser = {
+                isAuth: true,
+                token: result.result,
+                email: userData.email,
+                name: result.user?.name || "",
+            };
+
+            localStorage.setItem("user", JSON.stringify(fullUser));
+
+            dispatch(setUser(fullUser));
+
             navigate("/courses");
         } catch (error) {
             console.error("Login error: ", error);
@@ -87,12 +109,12 @@ function Login() {
                 ]}
                 onSubmit={handleSubmit}
                 submitButtonText="Login"
-                bottomText="If you don't have an account you may "
+                bottomText="If you don't have an account you may"
                 linkText="Registration"
                 linkTo="/registration"
             />
         </>
     );
-}
+};
 
 export default Login;

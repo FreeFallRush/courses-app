@@ -47,12 +47,23 @@ function Courses({ courses, authors }: CourseProps) {
         setFilteredCourses(result);
     };
 
+    const isEmpty = filteredCourses.length === 0;
+
     return (
         <>
             <Header />
             <div className={styles.container}>
-                <SearchBar onSearch={handleSearch} />
-                {filteredCourses.length === 0 ? (
+                {!isEmpty && (
+                    <div>
+                        <SearchBar onSearch={handleSearch} />
+                        <Button
+                            buttonText="Add New Course"
+                            onClick={() => navigate("/courses/add")}
+                        />
+                    </div>
+                )}
+
+                {isEmpty ? (
                     <EmptyCourseList />
                 ) : (
                     filteredCourses.map((course) => (
@@ -66,11 +77,6 @@ function Courses({ courses, authors }: CourseProps) {
                         />
                     ))
                 )}
-
-                <Button
-                    buttonText="Add New Course"
-                    onClick={() => navigate("/courses/add")}
-                />
             </div>
         </>
     );

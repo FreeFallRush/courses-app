@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../../../../common/Button/Button";
 import getCourseDuration from "../../../../helpers/getCourseDuration";
 import formatCreationDate from "../../../../helpers/formatCreationDate";
@@ -5,12 +6,19 @@ import { CourseCardProps } from "./CourseCard.types";
 import styles from "./CourseCard.module.css";
 
 function CourseCard({
+    id,
     title = "Course Title",
     duration = 60,
     creationDate = "01/01/2025",
     description = "Course Description",
     authorNames = ["name2", "name3"],
 }: CourseCardProps) {
+    const navigate = useNavigate();
+
+    const handleShowCourse = () => {
+        navigate(`/courses/${id}`);
+    };
+
     return (
         <div className={styles.cardContainer}>
             <h2 className={styles.title}>{title}</h2>
@@ -29,7 +37,10 @@ function CourseCard({
                         <strong>Created:</strong>{" "}
                         {formatCreationDate(creationDate)}
                     </p>
-                    <Button buttonText="Show Course" />
+                    <Button
+                        buttonText="Show Course"
+                        onClick={handleShowCourse}
+                    />
                 </div>
             </div>
         </div>

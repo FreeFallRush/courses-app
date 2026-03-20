@@ -1,7 +1,8 @@
 export type CourseCardProps = {
+    id: string;
     title?: string;
-    description?: string;
     duration?: number;
     creationDate?: string;
+    description?: string;
     authorNames?: string[];
 };

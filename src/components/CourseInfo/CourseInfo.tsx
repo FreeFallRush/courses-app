@@ -4,7 +4,7 @@ import Button from "../../common/Button/Button";
 import getCourseDuration from "../../helpers/getCourseDuration";
 import formatCreationDate from "../../helpers/formatCreationDate";
 import Header from "../Header/Header";
-import { Course, Author } from "./CourseInfo.types";
+import { Course, Author } from "../../types/course";
 import styles from "./CourseInfo.module.css";
 
 function CourseInfo() {

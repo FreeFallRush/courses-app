@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
-import { Course, Author } from "./Courses.types";
+import { Course, Author } from "../../types/course";
 import Header from "../Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Button from "../../common/Button/Button";

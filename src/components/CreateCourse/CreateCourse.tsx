@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "../AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
-import { Author } from "../Courses/Courses.types";
+import { Author } from "../../store/authors/types";
 import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";

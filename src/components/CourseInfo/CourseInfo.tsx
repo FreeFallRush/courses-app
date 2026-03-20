@@ -24,7 +24,7 @@ function CourseInfo({ courses = [], authors = [] }: CourseInfoProps) {
 
     return (
         <>
-            <Header showLogout={true} userName="Harry Potter" />
+            <Header />
 
             <div className={styles.wrapper}>
                 <h2 className={styles.infoCardTitle}>{course.title}</h2>

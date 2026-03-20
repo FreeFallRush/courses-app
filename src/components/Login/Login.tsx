@@ -64,7 +64,7 @@ function Login() {
 
     return (
         <>
-            <Header showLogout={false} />
+            <Header />
             <AuthForm
                 title="Login"
                 fields={[

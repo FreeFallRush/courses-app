@@ -49,7 +49,7 @@ function Courses({ courses, authors }: CourseProps) {
 
     return (
         <>
-            <Header showLogout={true} />
+            <Header />
             <div className={styles.container}>
                 <SearchBar onSearch={handleSearch} />
                 {filteredCourses.length === 0 ? (

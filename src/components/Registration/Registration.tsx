@@ -70,7 +70,7 @@ function Registration() {
 
     return (
         <>
-            <Header showLogout={false} />
+            <Header />
             <AuthForm
                 title="Registration"
                 fields={[

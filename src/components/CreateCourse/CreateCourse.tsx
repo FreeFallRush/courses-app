@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
-import AuthorItem from "../AuthorItem/AuthorItem";
+import AuthorItem from "./components/AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
 import { Author } from "../../store/authors/types";
 import { useAuthors } from "../../hooks/useAuthors";

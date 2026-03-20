@@ -1,0 +1,24 @@
+.itemContainer {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-around; */
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    border: 1px solid red;
+}
+
+.name {
+    padding-right: 10px;
+}
+
+.iconButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333e48;
+    font-size: 1rem;
+}
+
+.iconButton:hover {
+    color: #007298;
+}

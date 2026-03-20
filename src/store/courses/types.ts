@@ -10,3 +10,23 @@ export interface Course {
     duration: number;
     authors: string[];
 }
+
+interface SetCoursesAction {
+    type: typeof SET_COURSES;
+    payload: Course[];
+}
+
+interface AddCourseAction {
+    type: typeof ADD_COURSE;
+    payload: Course;
+}
+
+interface DeleteCourseAction {
+    type: typeof DELETE_COURSE;
+    payload: string; // course ID
+}
+
+export type CourseActionTypes =
+    | SetCoursesAction
+    | AddCourseAction
+    | DeleteCourseAction;

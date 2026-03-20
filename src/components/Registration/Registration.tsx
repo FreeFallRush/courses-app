@@ -41,13 +41,16 @@ const Registration = () => {
         const newUser = { name, email, password };
 
         try {
-            const response = await fetch("http://localhost:4000/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newUser),
-            });
+            const response = await fetch(
+                "https://react-courses-app-1.onrender.com/register",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newUser),
+                }
+            );
 
             if (!response.ok) {
                 const errorData = await response.json();

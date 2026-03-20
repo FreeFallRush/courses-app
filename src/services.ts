@@ -1,4 +1,4 @@
-const BASE_URL = "https://react-courses-app-1.onrender.com/api";
+const BASE_URL = "https://react-courses-app-1.onrender.com";
 
 export const getCourses = async () => {
     const res = await fetch(`${BASE_URL}/courses/all`);

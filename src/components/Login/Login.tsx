@@ -49,13 +49,16 @@ const Login = () => {
         const userData = { email, password };
 
         try {
-            const response = await fetch("http://localhost:4000/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
-            });
+            const response = await fetch(
+                "https://react-courses-app-1.onrender.com/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userData),
+                }
+            );
 
             const result = await response.json();
 

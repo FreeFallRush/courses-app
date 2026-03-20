@@ -69,6 +69,7 @@ function Courses({ courses, authors }: CourseProps) {
                     filteredCourses.map((course) => (
                         <CourseCard
                             key={course.id}
+                            id={course.id}
                             title={course.title}
                             description={course.description}
                             duration={course.duration}

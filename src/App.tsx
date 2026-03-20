@@ -6,7 +6,7 @@ import {
     Navigate,
 } from "react-router-dom";
 
-import { useAppDispatch } from "./store/hooks";
+import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setCourses } from "./store/courses/actions";
 import { setAuthors } from "./store/authors/actions";
 import { getCourses, getAuthors } from "./services";
@@ -21,33 +21,35 @@ import "./App.css";
 
 function App() {
     const dispatch = useAppDispatch();
-    const token = localStorage.getItem("token");
+    const user = useAppSelector((state) => state.user);
+    const token = user.token;
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [coursesData, authorsData] = await Promise.all([
-                    getCourses(),
-                    getAuthors(),
-                ]);
-                dispatch(setCourses(coursesData.result));
-                dispatch(setAuthors(authorsData.result));
-            } catch (error) {
-                console.error("Failed to fetch data:", error);
-            }
-        };
+        if (user.isAuth && token) {
+            const fetchData = async () => {
+                try {
+                    const [coursesData, authorsData] = await Promise.all([
+                        getCourses(),
+                        getAuthors(),
+                    ]);
 
-        if (token) {
+                    dispatch(setCourses(coursesData.result));
+                    dispatch(setAuthors(authorsData.result));
+                } catch (error) {
+                    console.error("Failed to fetch data:", error);
+                }
+            };
+
             fetchData();
         }
-    }, [dispatch, token]);
+    }, [dispatch, user.isAuth, token]);
 
     const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-        return token ? children : <Navigate to="/login" />;
+        return user.isAuth ? children : <Navigate to="/login" />;
     };
 
     const PublicRoute = ({ children }: { children: JSX.Element }) => {
-        return !token ? children : <Navigate to="/courses" />;
+        return !user.isAuth ? children : <Navigate to="/courses" />;
     };
 
     return (
@@ -55,7 +57,9 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={<Navigate to={token ? "/courses" : "/login"} />}
+                    element={
+                        <Navigate to={user.isAuth ? "/courses" : "/login"} />
+                    }
                 />
 
                 <Route

@@ -20,83 +20,78 @@ function App() {
     const token = localStorage.getItem("token");
 
     const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-        return token ? children : <Navigate to="/courses" />;
+        return token ? children : <Navigate to="/login" />;
     };
 
     const PublicRoute = ({ children }: { children: JSX.Element }) => {
-        return token ? children : <Navigate to="/courses" />;
+        return !token ? children : <Navigate to="/courses" />;
     };
 
     return (
-        <>
-            <Router>
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            token ? (
-                                <Navigate to="/courses" />
-                            ) : (
-                                <Navigate to="/login" />
-                            )
-                        }
-                    />
+        <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        token ? (
+                            <Navigate to="/courses" />
+                        ) : (
+                            <Navigate to="/login" />
+                        )
+                    }
+                />
 
-                    <Route
-                        path="/login"
-                        element={
-                            <PublicRoute>
-                                <Login />
-                            </PublicRoute>
-                        }
-                    />
+                <Route
+                    path="/login"
+                    element={
+                        <PublicRoute>
+                            <Login />
+                        </PublicRoute>
+                    }
+                />
 
-                    <Route
-                        path="/registration"
-                        element={
-                            <PublicRoute>
-                                <Registration />
-                            </PublicRoute>
-                        }
-                    />
+                <Route
+                    path="/registration"
+                    element={
+                        <PublicRoute>
+                            <Registration />
+                        </PublicRoute>
+                    }
+                />
 
-                    <Route
-                        path="/courses"
-                        element={
-                            <PrivateRoute>
-                                <Courses courses={courses} authors={authors} />
-                            </PrivateRoute>
-                        }
-                    />
+                <Route
+                    path="/courses"
+                    element={
+                        <PrivateRoute>
+                            <Courses courses={courses} authors={authors} />
+                        </PrivateRoute>
+                    }
+                />
 
-                    <Route
-                        path="/courses/:courseId"
-                        element={
-                            <PrivateRoute>
-                                <CourseInfo
-                                    courses={courses}
-                                    authors={authors}
-                                />
-                            </PrivateRoute>
-                        }
-                    />
+                <Route
+                    path="/courses/:courseId"
+                    element={
+                        <PrivateRoute>
+                            <CourseInfo courses={courses} authors={authors} />
+                        </PrivateRoute>
+                    }
+                />
 
-                    <Route
-                        path="/courses/add"
-                        element={
-                            <PrivateRoute>
-                                <CreateCourse
-                                    courses={courses}
-                                    setCourses={setCourses}
-                                    authors={authors}
-                                    setAuthors={setAuthors}
-                                />
-                            </PrivateRoute>
-                        }
-                    />
-                </Routes>
-            </Router>
-        </>
+                <Route
+                    path="/courses/add"
+                    element={
+                        <PrivateRoute>
+                            <CreateCourse
+                                courses={courses}
+                                setCourses={setCourses}
+                                authors={authors}
+                                setAuthors={setAuthors}
+                            />
+                        </PrivateRoute>
+                    }
+                />
+            </Routes>
+        </Router>
     );
 }
 

@@ -2,17 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../AuthForm/AuthForm";
 import Header from "../Header/Header";
+import { RegistrationFormErrors } from "../../types/formErrors";
+
 import {
     validateName,
     validateEmail,
     validatePassword,
 } from "../../helpers/getFormValidation";
 
-function Registration() {
+const Registration = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<RegistrationFormErrors>({
         name: "",
         email: "",
         password: "",
@@ -20,8 +22,8 @@ function Registration() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
         const newErrors = {
             name: validateName(name),
@@ -39,16 +41,13 @@ function Registration() {
         const newUser = { name, email, password };
 
         try {
-            const response = await fetch(
-                "https://react-courses-app-1.onrender.com/register",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(newUser),
-                }
-            );
+            const response = await fetch("http://localhost:4000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newUser),
+            });
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -61,6 +60,7 @@ function Registration() {
                 alert(`Registration failed: ${errorMessage}`);
                 return;
             }
+
             navigate("/login");
         } catch (error) {
             console.error("Registration error:", error);
@@ -100,12 +100,12 @@ function Registration() {
                 ]}
                 onSubmit={handleSubmit}
                 submitButtonText="Login"
-                bottomText="If you have an account you may "
+                bottomText="If you have an account you may"
                 linkText="Login"
                 linkTo="/login"
             />
         </>
     );
-}
+};
 
 export default Registration;

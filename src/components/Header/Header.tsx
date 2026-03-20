@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { removeUser } from "../../store/user/actions";
 import Logo from "./components/Logo/Logo";
 import Button from "../../common/Button/Button";
 
@@ -7,27 +9,25 @@ import styles from "./Header.module.css";
 function Header() {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-    const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("userName");
+    const { isAuth, name } = useAppSelector((state) => state.user);
 
     const isAuthPage =
         location.pathname === "/login" || location.pathname === "/registration";
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userName");
+        localStorage.removeItem("user");
+        dispatch(removeUser());
         navigate("/login");
     };
 
     return (
         <header className={styles.header}>
             <Logo />
-            {token && !isAuthPage && (
+            {isAuth && !isAuthPage && (
                 <div className={styles.userInfo}>
-                    {userName && (
-                        <span className={styles.userName}>{userName}</span>
-                    )}
+                    {name && <span className={styles.userName}>{name}</span>}
                     <Button buttonText="Logout" onClick={handleLogout} />
                 </div>
             )}

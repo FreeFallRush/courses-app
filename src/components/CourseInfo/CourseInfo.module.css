@@ -21,6 +21,9 @@
     min-width: 300px;
     font-size: 16px;
     line-height: 2;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .leftCardContainer {

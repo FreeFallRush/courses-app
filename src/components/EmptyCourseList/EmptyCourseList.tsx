@@ -12,7 +12,9 @@ function EmptyCourseList() {
     return (
         <div className={styles.mainContainer}>
             <h2>Course List is Empty</h2>
-            <p>Please use "Add New Course" button to add your first course</p>
+            <p className={styles.para}>
+                Please use "Add New Course" button to add your first course
+            </p>
             <Button buttonText="Add New Course" onClick={handleAddCourse} />
         </div>
     );

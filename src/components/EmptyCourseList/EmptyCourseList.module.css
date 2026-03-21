@@ -6,6 +6,11 @@
     text-align: center;
     height: 80vh;
     padding: 1rem;
+    color: #333e48;
+}
+
+.para {
+    margin-bottom: 4rem;
 }
 
 @media (max-width: 768px) {

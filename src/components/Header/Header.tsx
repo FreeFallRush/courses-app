@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { removeUser } from "../../store/user/actions";
 import Logo from "./components/Logo/Logo";
 import Button from "../../common/Button/Button";
+import { logoutUser } from "../../store/user/thunk";
 
 import styles from "./Header.module.css";
 
@@ -16,10 +17,14 @@ function Header() {
     const isAuthPage =
         location.pathname === "/login" || location.pathname === "/registration";
 
-    const handleLogout = () => {
-        localStorage.removeItem("user");
-        dispatch(removeUser());
-        navigate("/login");
+    const handleLogout = async () => {
+        try {
+            await dispatch(logoutUser()).unwrap();
+            dispatch(removeUser());
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
     };
 
     return (

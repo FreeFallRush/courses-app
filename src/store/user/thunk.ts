@@ -84,3 +84,31 @@ export const registerUser = createAsyncThunk<
         return thunkAPI.rejectWithValue("Network error");
     }
 });
+
+export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
+    "user/logoutUser",
+    async (_, thunkAPI) => {
+        const token = localStorage.getItem("token");
+
+        if (!token) return thunkAPI.rejectWithValue("No token found");
+
+        try {
+            const response = await fetch(`${BASE_URL}/logout`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: token,
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                return thunkAPI.rejectWithValue(
+                    errorData.errors || "Logout failed"
+                );
+            }
+            localStorage.removeItem("token");
+        } catch (error) {
+            return thunkAPI.rejectWithValue("Network error");
+        }
+    }
+);

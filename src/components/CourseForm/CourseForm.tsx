@@ -65,14 +65,7 @@ const CreateCourse = () => {
 
             setCourseAuthors(authorObjects);
         }
-    }, [
-        courseToEdit,
-        authorsFromRedux,
-        setCourseAuthors,
-        setTitle,
-        setDescription,
-        setDuration,
-    ]);
+    }, [courseToEdit]);
 
     const handleSubmit = async () => {
         if (

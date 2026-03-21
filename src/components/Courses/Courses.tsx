@@ -90,11 +90,7 @@ function Courses() {
                     filteredCourses.map((course) => (
                         <CourseCard
                             key={course.id}
-                            id={course.id}
-                            title={course.title}
-                            description={course.description}
-                            duration={course.duration}
-                            creationDate={course.creationDate}
+                            course={course}
                             authorNames={getAuthors(course.authors)}
                             onDelete={() => handleDeleteCourse(course.id)}
                         />

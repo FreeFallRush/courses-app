@@ -94,3 +94,36 @@ export const deleteCourse = createAsyncThunk<
         return thunkAPI.rejectWithValue("Network error");
     }
 });
+
+export const updateCourse = createAsyncThunk(
+    "courses/updateCourse",
+    async (courseToUpdate: Course, thunkAPI) => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return thunkAPI.rejectWithValue("No token found");
+
+            const response = await fetch(
+                `${BASE_URL}/courses/${courseToUpdate.id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                    body: JSON.stringify(courseToUpdate),
+                }
+            );
+            const data = await response.json();
+
+            if (!response.ok) {
+                return thunkAPI.rejectWithValue(
+                    data.errors || "Failed to update course"
+                );
+            }
+
+            return data.result as Course;
+        } catch (error) {
+            return thunkAPI.rejectWithValue("Network error");
+        }
+    }
+);

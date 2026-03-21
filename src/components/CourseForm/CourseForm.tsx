@@ -1,25 +1,30 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "./components/AuthorItem/AuthorItem";
-import getCourseDuration from "../../helpers/getCourseDuration";
 
-import { useAuthors } from "../../hooks/useAuthors";
+import getCourseDuration from "../../helpers/getCourseDuration";
 import { useCourseForm } from "../../hooks/useCourseForm";
+import { useAuthors } from "../../hooks/useAuthors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import { createAuthor, deleteAuthor } from "../../store/authors/thunk";
+import { createCourse, updateCourse } from "../../store/courses/thunk";
+
 import { CreateCourseAuthorErrors } from "../../types/formErrors";
+import { Course } from "../../types/course";
 import { validateAuthorName } from "../../helpers/validateAuthorName";
-import { createCourse } from "../../store/courses/thunk";
-import { createAuthor } from "../../store/authors/thunk";
-import { deleteAuthor } from "../../store/authors/thunk";
 
 import styles from "./CourseForm.module.css";
 
 const CreateCourse = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useAppDispatch();
+
+    const courseToEdit: Course | null = location.state?.course || null;
 
     const authorsFromRedux = useAppSelector((state) => state.authors);
 
@@ -46,10 +51,33 @@ const CreateCourse = () => {
         handleCreateCourse,
     } = useCourseForm(courseAuthors, () => setCourseAuthors([]));
 
+    useEffect(() => {
+        if (courseToEdit) {
+            setTitle(courseToEdit.title);
+            setDescription(courseToEdit.description);
+            setDuration(courseToEdit.duration.toString());
+
+            const authorObjects = authorsFromRedux.filter((author) =>
+                courseToEdit.authors.includes(author.id)
+            );
+
+            setCourseAuthors(authorObjects);
+        }
+    }, [courseToEdit, authorsFromRedux]);
+
     const onCreateCourse = async () => {
         const newCourse = handleCreateCourse();
         if (newCourse) {
             await dispatch(createCourse(newCourse));
+            navigate("/courses");
+        }
+    };
+
+    const onUpdateCourse = async () => {
+        const updatedCourse = handleCreateCourse();
+        if (updatedCourse && courseToEdit) {
+            updatedCourse.id = courseToEdit.id;
+            await dispatch(updateCourse(updatedCourse));
             navigate("/courses");
         }
     };
@@ -78,11 +106,12 @@ const CreateCourse = () => {
             console.error("Error deleting author", error);
         }
     };
-
     return (
         <>
             <Header />
-            <h2 className={styles.heading}>Course Edit/Create Page</h2>
+            <h2 className={styles.heading}>
+                Course Edit/Create {courseToEdit ? "Edit" : "Create"} Page
+            </h2>
             <div className={styles.container}>
                 <div className={styles.section}>
                     <h3 className={styles.sectionTitle}>Main Info</h3>
@@ -199,8 +228,10 @@ const CreateCourse = () => {
                         onClick={() => navigate("/courses")}
                     />
                     <Button
-                        buttonText="Create Course"
-                        onClick={onCreateCourse}
+                        buttonText={
+                            courseToEdit ? "Update Course" : "Create Course"
+                        }
+                        onClick={courseToEdit ? onUpdateCourse : onCreateCourse}
                     />
                 </div>
             </div>

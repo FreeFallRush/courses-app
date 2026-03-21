@@ -7,15 +7,9 @@ import styles from "./CourseCard.module.css";
 import { useAppSelector } from "../../../../store/hooks";
 import { FaTrash, FaPen } from "react-icons/fa";
 
-function CourseCard({
-    id,
-    title = "Course Title",
-    duration = 60,
-    creationDate = "01/01/2025",
-    description = "Course Description",
-    authorNames = ["name2", "name3"],
-    onDelete,
-}: CourseCardProps & { onDelete?: () => void }) {
+function CourseCard({ course, authorNames, onDelete }: CourseCardProps) {
+    const { id, title, description, duration, creationDate } = course;
+
     const navigate = useNavigate();
     const userRole = useAppSelector((state) => state.user.role);
     const isAdmin = userRole?.toUpperCase() === "ADMIN";
@@ -25,7 +19,9 @@ function CourseCard({
     };
 
     const handleUpdateCourse = () => {
-        navigate(`/courses/update/${id}`);
+        navigate(`/courses/update/${id}`, {
+            state: { course },
+        });
     };
 
     return (

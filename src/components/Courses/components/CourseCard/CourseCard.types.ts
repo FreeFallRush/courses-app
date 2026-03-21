@@ -1,9 +1,7 @@
+import { Course } from "../../../../types/course";
+
 export type CourseCardProps = {
-    id: string;
-    title?: string;
-    duration?: number;
-    creationDate?: string;
-    description?: string;
-    authorNames?: string[];
+    course: Course;
+    authorNames: string[];
     onDelete?: () => void;
 };

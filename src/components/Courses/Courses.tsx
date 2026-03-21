@@ -39,20 +39,16 @@ function Courses() {
     const isEmpty = filteredCourses.length === 0;
     return (
         <>
-            {" "}
-            <Header />{" "}
+            <Header />
             <div className={styles.container}>
-                {" "}
-                {!isEmpty && (
-                    <div className={styles.topBar}>
-                        {" "}
-                        <SearchBar onSearch={handleSearch} />{" "}
-                        <Button
-                            buttonText="Add New Course"
-                            onClick={() => navigate("/courses/add")}
-                        />{" "}
-                    </div>
-                )}{" "}
+                <div className={styles.topBar}>
+                    <SearchBar onSearch={handleSearch} />
+                    <Button
+                        buttonText="Add New Course"
+                        onClick={() => navigate("/courses/add")}
+                    />
+                </div>
+
                 {isEmpty ? (
                     <EmptyCourseList />
                 ) : (
@@ -67,8 +63,8 @@ function Courses() {
                             authorNames={getAuthors(course.authors)}
                         />
                     ))
-                )}{" "}
-            </div>{" "}
+                )}
+            </div>
         </>
     );
 }

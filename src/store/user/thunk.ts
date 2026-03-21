@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UserState } from "./types";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://react-courses-app-1.onrender.com";
 
 interface Credentials {
     email: string;

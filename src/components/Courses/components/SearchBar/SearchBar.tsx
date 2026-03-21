@@ -20,7 +20,6 @@ function SearchBar({ onSearch }: SearchBarProps) {
 
     const handleSearchClick = () => {
         onSearch(inputValue);
-        setInputValue("");
     };
 
     return (

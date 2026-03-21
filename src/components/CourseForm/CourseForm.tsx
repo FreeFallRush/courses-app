@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Header from "../Header/Header";
@@ -9,6 +9,7 @@ import getCourseDuration from "../../helpers/getCourseDuration";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import { useAuthors } from "../../hooks/useAuthors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import formatCreationDate from "../../helpers/formatCreationDate";
 
 import { createAuthor, deleteAuthor } from "../../store/authors/thunk";
 import { createCourse, updateCourse } from "../../store/courses/thunk";
@@ -16,17 +17,19 @@ import { createCourse, updateCourse } from "../../store/courses/thunk";
 import { CreateCourseAuthorErrors } from "../../types/formErrors";
 import { Course } from "../../types/course";
 import { validateAuthorName } from "../../helpers/validateAuthorName";
+import { v4 as uuidv4 } from "uuid";
 
 import styles from "./CourseForm.module.css";
 
 const CreateCourse = () => {
+    const { courseId } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
     const dispatch = useAppDispatch();
 
-    const courseToEdit: Course | null = location.state?.course || null;
-
+    const allCourses = useAppSelector((state) => state.courses);
     const authorsFromRedux = useAppSelector((state) => state.authors);
+
+    const courseToEdit = allCourses.find((c) => c.id === courseId) || null;
 
     const {
         courseAuthors,
@@ -48,7 +51,6 @@ const CreateCourse = () => {
         duration,
         setDuration,
         errors: formErrors,
-        handleCreateCourse,
     } = useCourseForm(courseAuthors, () => setCourseAuthors([]));
 
     useEffect(() => {
@@ -63,22 +65,53 @@ const CreateCourse = () => {
 
             setCourseAuthors(authorObjects);
         }
-    }, [courseToEdit, authorsFromRedux]);
+    }, [
+        courseToEdit,
+        authorsFromRedux,
+        setCourseAuthors,
+        setTitle,
+        setDescription,
+        setDuration,
+    ]);
 
-    const onCreateCourse = async () => {
-        const newCourse = handleCreateCourse();
-        if (newCourse) {
-            await dispatch(createCourse(newCourse));
-            navigate("/courses");
+    const handleSubmit = async () => {
+        if (
+            formErrors.title ||
+            formErrors.description ||
+            formErrors.duration ||
+            !title.trim() ||
+            !description.trim() ||
+            !duration ||
+            courseAuthors.length === 0
+        ) {
+            return;
         }
-    };
 
-    const onUpdateCourse = async () => {
-        const updatedCourse = handleCreateCourse();
-        if (updatedCourse && courseToEdit) {
-            updatedCourse.id = courseToEdit.id;
-            await dispatch(updateCourse(updatedCourse));
-            navigate("/courses");
+        const courseData: Course = {
+            id: courseToEdit?.id || uuidv4(),
+            title: title.trim(),
+            description: description.trim(),
+            creationDate:
+                courseToEdit?.creationDate ||
+                formatCreationDate(new Date().toLocaleDateString("en-US")),
+            duration: +duration,
+            authors: courseAuthors.map((a) => a.id),
+        };
+
+        try {
+            if (courseToEdit) {
+                const result = await dispatch(updateCourse(courseData));
+                if (updateCourse.fulfilled.match(result)) {
+                    navigate("/courses");
+                }
+            } else {
+                const result = await dispatch(createCourse(courseData));
+                if (createCourse.fulfilled.match(result)) {
+                    navigate("/courses");
+                }
+            }
+        } catch (error) {
+            console.error("Failed to save course:", error);
         }
     };
 
@@ -109,9 +142,7 @@ const CreateCourse = () => {
     return (
         <>
             <Header />
-            <h2 className={styles.heading}>
-                Course Edit/Create {courseToEdit ? "Edit" : "Create"} Page
-            </h2>
+            <h2 className={styles.heading}>Course Edit/Create Page</h2>
             <div className={styles.container}>
                 <div className={styles.section}>
                     <h3 className={styles.sectionTitle}>Main Info</h3>
@@ -231,7 +262,7 @@ const CreateCourse = () => {
                         buttonText={
                             courseToEdit ? "Update Course" : "Create Course"
                         }
-                        onClick={courseToEdit ? onUpdateCourse : onCreateCourse}
+                        onClick={handleSubmit}
                     />
                 </div>
             </div>

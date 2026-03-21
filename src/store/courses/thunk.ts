@@ -2,8 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Course } from "../../types/course";
 import { setCourses, addCourse } from "./actions";
 import { deleteCourse as deleteCourseAction } from "./actions";
+import { updateCourseSuccess } from "./actions";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://react-courses-app-1.onrender.com";
 
 export const fetchCourses = createAsyncThunk(
     "courses/fetchCourses",
@@ -120,7 +121,7 @@ export const updateCourse = createAsyncThunk(
                     data.errors || "Failed to update course"
                 );
             }
-
+            thunkAPI.dispatch(updateCourseSuccess(data.result as Course));
             return data.result as Course;
         } catch (error) {
             return thunkAPI.rejectWithValue("Network error");

@@ -25,3 +25,8 @@ export const updateCourseAction = (course: Course) => ({
     type: UPDATE_COURSE,
     payload: course,
 });
+
+export const updateCourseSuccess = (course: Course) => ({
+    type: "UPDATE_COURSE",
+    payload: course,
+});

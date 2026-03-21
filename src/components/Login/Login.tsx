@@ -6,8 +6,8 @@ import {
     validateEmail,
     validatePassword,
 } from "../../helpers/getFormValidation";
-import { useAppDispatch } from "../../store/hooks";
-import { setUser } from "../../store/user/actions";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { loginUser } from "../../store/user/thunk";
 import { LoginFormErrors } from "../../types/formErrors";
 
 const Login = () => {
@@ -20,16 +20,13 @@ const Login = () => {
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.user);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            if (parsedUser?.token) {
-                navigate("/courses");
-            }
+        if (user.isAuth) {
+            navigate("/courses");
         }
-    }, [navigate]);
+    }, [user.isAuth, navigate]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -46,47 +43,13 @@ const Login = () => {
         );
         if (hasErrors) return;
 
-        const userData = { email, password };
-
         try {
-            const response = await fetch(
-                "https://react-courses-app-1.onrender.com/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(userData),
-                }
-            );
-
-            const result = await response.json();
-
-            if (!response.ok || !result?.result) {
-                alert(
-                    "Login failed: " + (result.errors || "Invalid credentials")
-                );
-                return;
-            }
-
-            const fullUser = {
-                isAuth: true,
-                token: result.result,
-                email: userData.email,
-                name: result.user?.name || "",
-            };
-
-            localStorage.setItem("user", JSON.stringify(fullUser));
-
-            dispatch(setUser(fullUser));
-
+            await dispatch(loginUser({ email, password })).unwrap();
             navigate("/courses");
-        } catch (error) {
-            console.error("Login error: ", error);
-            alert("An error occurred. Please try again.");
+        } catch (error: unknown) {
+            alert(`Login failed: ${error}`);
         }
     };
-
     return (
         <>
             <Header />

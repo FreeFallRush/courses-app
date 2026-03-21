@@ -18,9 +18,14 @@ function CourseCard({
 }: CourseCardProps & { onDelete?: () => void }) {
     const navigate = useNavigate();
     const userRole = useAppSelector((state) => state.user.role);
+    const isAdmin = userRole?.toUpperCase() === "ADMIN";
 
     const handleShowCourse = () => {
         navigate(`/courses/${id}`);
+    };
+
+    const handleUpdateCourse = () => {
+        navigate(`/courses/update/${id}`);
     };
 
     return (
@@ -47,10 +52,13 @@ function CourseCard({
                             buttonText="Show Course"
                             onClick={handleShowCourse}
                         />
-                        {userRole.toUpperCase() === "ADMIN" && (
+                        {isAdmin && (
                             <>
                                 <Button icon={<FaTrash />} onClick={onDelete} />
-                                <Button icon={<FaPen />} onClick={() => {}} />
+                                <Button
+                                    icon={<FaPen />}
+                                    onClick={handleUpdateCourse}
+                                />
                             </>
                         )}
                     </div>

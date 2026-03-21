@@ -83,7 +83,7 @@ const Registration = () => {
                 ]}
                 onSubmit={handleSubmit}
                 submitButtonText="Login"
-                bottomText="If you have an account you may"
+                bottomText="If you have an account you may "
                 linkText="Login"
                 linkTo="/login"
             />

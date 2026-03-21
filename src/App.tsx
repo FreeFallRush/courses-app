@@ -15,7 +15,7 @@ import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
 import Courses from "./components/Courses/Courses";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
-import CreateCourse from "./components/CreateCourse/CreateCourse";
+import CreateCourse from "./components/CourseForm/CourseForm";
 
 import "./App.css";
 

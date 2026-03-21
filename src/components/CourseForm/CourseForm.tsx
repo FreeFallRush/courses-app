@@ -13,7 +13,7 @@ import { addAuthor } from "../../store/authors/actions";
 import { CreateCourseAuthorErrors } from "../../types/formErrors";
 import { validateAuthorName } from "../../helpers/validateAuthorName";
 
-import styles from "./CreateCourse.module.css";
+import styles from "./CourseForm.module.css";
 
 const CreateCourse = () => {
     const navigate = useNavigate();

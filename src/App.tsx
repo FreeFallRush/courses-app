@@ -7,9 +7,6 @@ import {
 } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "./store/hooks";
-import { setCourses } from "./store/courses/actions";
-import { setAuthors } from "./store/authors/actions";
-import { getAuthors } from "./services";
 
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
@@ -18,6 +15,7 @@ import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CreateCourse from "./components/CourseForm/CourseForm";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { fetchCourses } from "./store/courses/thunk";
+import { fetchAuthors } from "./store/authors/thunk";
 
 import "./App.css";
 
@@ -32,8 +30,7 @@ function App() {
                 try {
                     dispatch(fetchCourses());
 
-                    const authorsData = await getAuthors();
-                    dispatch(setAuthors(authorsData.result));
+                    dispatch(fetchAuthors());
                 } catch (error) {
                     console.error("Failed to fetch data:", error);
                 }

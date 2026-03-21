@@ -8,10 +8,10 @@ import { Author } from "../../store/authors/types";
 import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { addAuthor } from "../../store/authors/actions";
 import { CreateCourseAuthorErrors } from "../../types/formErrors";
 import { validateAuthorName } from "../../helpers/validateAuthorName";
 import { createCourse } from "../../store/courses/thunk";
+import { createAuthor } from "../../store/authors/thunk";
 
 import styles from "./CourseForm.module.css";
 
@@ -65,7 +65,7 @@ const CreateCourse = () => {
             name: authorName.trim(),
         };
 
-        dispatch(addAuthor(newAuthor));
+        dispatch(createAuthor(newAuthor));
 
         setAuthorName("");
         setErrors({ authorName: "" });

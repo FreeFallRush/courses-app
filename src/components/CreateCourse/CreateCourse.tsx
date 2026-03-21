@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useState } from "react";
 import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "./components/AuthorItem/AuthorItem";
@@ -9,6 +9,9 @@ import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addCourse } from "../../store/courses/actions";
+import { addAuthor } from "../../store/authors/actions";
+import { CreateCourseAuthorErrors } from "../../types/formErrors";
+import { validateAuthorName } from "../../helpers/validateAuthorName";
 
 import styles from "./CreateCourse.module.css";
 
@@ -19,18 +22,16 @@ const CreateCourse = () => {
     const authorsFromRedux = useAppSelector((state) => state.authors);
 
     const {
-        authors,
-        setAuthors: setLocalAuthors,
         courseAuthors,
         setCourseAuthors,
-        addAuthor,
-        deleteAuthor,
-        deleteAuthorFromList,
+        addAuthor: addCourseAuthor,
+        deleteAuthor: deleteCourseAuthor,
     } = useAuthors();
 
-    useEffect(() => {
-        setLocalAuthors(authorsFromRedux);
-    }, [authorsFromRedux, setLocalAuthors]);
+    const [authorName, setAuthorName] = useState("");
+    const [errors, setErrors] = useState<CreateCourseAuthorErrors>({
+        authorName: "",
+    });
 
     const {
         title,
@@ -39,10 +40,7 @@ const CreateCourse = () => {
         setDescription,
         duration,
         setDuration,
-        authorName,
-        setAuthorName,
-        errors,
-        setErrors,
+        errors: formErrors,
         handleCreateCourse,
     } = useCourseForm(courseAuthors, () => setCourseAuthors([]));
 
@@ -55,11 +53,10 @@ const CreateCourse = () => {
     };
 
     const handleCreateAuthor = () => {
-        if (authorName.trim().length < 2) {
-            setErrors((prev) => ({
-                ...prev,
-                authorName: "Author name must be at least 2 characters",
-            }));
+        const errorMessage = validateAuthorName(authorName);
+
+        if (errorMessage) {
+            setErrors({ authorName: errorMessage });
             return;
         }
 
@@ -68,9 +65,10 @@ const CreateCourse = () => {
             name: authorName.trim(),
         };
 
-        setLocalAuthors((prev) => [...prev, newAuthor]);
+        dispatch(addAuthor(newAuthor));
+
         setAuthorName("");
-        setErrors((prev) => ({ ...prev, authorName: "" }));
+        setErrors({ authorName: "" });
     };
 
     return (
@@ -87,8 +85,8 @@ const CreateCourse = () => {
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Input text"
                         />
-                        {errors.title && (
-                            <p className={styles.error}>{errors.title}</p>
+                        {formErrors.title && (
+                            <p className={styles.error}>{formErrors.title}</p>
                         )}
 
                         <label>Description</label>
@@ -98,8 +96,10 @@ const CreateCourse = () => {
                             placeholder="Input text"
                             rows={4}
                         />
-                        {errors.description && (
-                            <p className={styles.error}>{errors.description}</p>
+                        {formErrors.description && (
+                            <p className={styles.error}>
+                                {formErrors.description}
+                            </p>
                         )}
                     </div>
                 </div>
@@ -116,9 +116,9 @@ const CreateCourse = () => {
                                 onChange={(e) => setDuration(e.target.value)}
                                 placeholder="Input text"
                             />
-                            {errors.duration && (
+                            {formErrors.duration && (
                                 <p className={styles.error}>
-                                    {errors.duration}
+                                    {formErrors.duration}
                                 </p>
                             )}
                         </div>
@@ -150,15 +150,15 @@ const CreateCourse = () => {
 
                         <div className={styles.authorList}>
                             <h4>Authors List</h4>
-                            {authors.length > 0 ? (
-                                authors.map((author) => (
+                            {authorsFromRedux.length > 0 ? (
+                                authorsFromRedux.map((author) => (
                                     <AuthorItem
                                         key={author.id}
                                         name={author.name}
-                                        onAdd={() => addAuthor(author)}
-                                        onDelete={() =>
-                                            deleteAuthorFromList(author)
-                                        }
+                                        onAdd={() => addCourseAuthor(author)}
+                                        // onDelete={() =>
+                                        //     deleteAuthorFromList(author)
+                                        // }
                                     />
                                 ))
                             ) : (
@@ -174,7 +174,7 @@ const CreateCourse = () => {
                                 <AuthorItem
                                     key={author.id}
                                     name={author.name}
-                                    onDelete={() => deleteAuthor(author)}
+                                    onDelete={() => deleteCourseAuthor(author)}
                                 />
                             ))
                         ) : (

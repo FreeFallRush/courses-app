@@ -112,3 +112,19 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
         }
     }
 );
+
+export const getCurrentUser = createAsyncThunk<
+    UserState,
+    void,
+    { rejectValue: string }
+>("user/getCurrentUser", async (_, thunkAPI) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) return thunkAPI.rejectWithValue("No token found");
+    try {
+        const user = await fetchCurrentUser(token);
+        return user;
+    } catch (error) {
+        return thunkAPI.rejectWithValue("Failed to fetch current user");
+    }
+});

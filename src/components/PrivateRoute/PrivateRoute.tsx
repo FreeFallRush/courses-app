@@ -13,7 +13,7 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
         return <Navigate to="/login" />;
     }
 
-    if (user.role !== "ADMIN") {
+    if (user.role.toUpperCase() !== "ADMIN") {
         return <Navigate to="/courses" />;
     }
     return <>{children}</>;

@@ -30,6 +30,9 @@
     font-size: 13px;
     font-weight: 400;
     line-height: 25px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .duration,

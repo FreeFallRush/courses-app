@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+
 import Header from "../Header/Header";
 import Button from "../../common/Button/Button";
 import AuthorItem from "./components/AuthorItem/AuthorItem";
 import getCourseDuration from "../../helpers/getCourseDuration";
-import { Author } from "../../store/authors/types";
+
 import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -52,7 +53,7 @@ const CreateCourse = () => {
         }
     };
 
-    const handleCreateAuthor = () => {
+    const handleCreateAuthor = async () => {
         const errorMessage = validateAuthorName(authorName);
 
         if (errorMessage) {
@@ -60,17 +61,14 @@ const CreateCourse = () => {
             return;
         }
 
-        const newAuthor: Author = {
-            id: crypto.randomUUID(),
-            name: authorName.trim(),
-        };
-
-        dispatch(createAuthor(newAuthor));
-
-        setAuthorName("");
-        setErrors({ authorName: "" });
+        try {
+            await dispatch(createAuthor(authorName.trim()));
+            setAuthorName("");
+            setErrors({ authorName: "" });
+        } catch (error) {
+            console.error("Failed to create author:", error);
+        }
     };
-
     return (
         <>
             <Header />

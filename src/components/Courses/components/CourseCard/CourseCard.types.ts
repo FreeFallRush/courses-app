@@ -5,4 +5,5 @@ export type CourseCardProps = {
     creationDate?: string;
     description?: string;
     authorNames?: string[];
+    onDelete?: () => void;
 };

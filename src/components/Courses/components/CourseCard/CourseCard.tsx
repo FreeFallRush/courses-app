@@ -4,6 +4,8 @@ import getCourseDuration from "../../../../helpers/getCourseDuration";
 import formatCreationDate from "../../../../helpers/formatCreationDate";
 import { CourseCardProps } from "./CourseCard.types";
 import styles from "./CourseCard.module.css";
+import { useAppSelector } from "../../../../store/hooks";
+import { FaTrash, FaPen } from "react-icons/fa";
 
 function CourseCard({
     id,
@@ -12,23 +14,26 @@ function CourseCard({
     creationDate = "01/01/2025",
     description = "Course Description",
     authorNames = ["name2", "name3"],
-}: CourseCardProps) {
+    onDelete,
+}: CourseCardProps & { onDelete?: () => void }) {
     const navigate = useNavigate();
+    const userRole = useAppSelector((state) => state.user.role);
 
     const handleShowCourse = () => {
         navigate(`/courses/${id}`);
     };
 
     return (
-        <div className={styles.cardContainer}>
+        <div className={styles.card}>
             <h2 className={styles.title}>{title}</h2>
-            <div className={styles.card}>
-                <div className={styles.leftCardSide}>
+            <div className={styles.cardContainer}>
+                <div className={styles.left}>
                     <p className={styles.description}>{description}</p>
                 </div>
-                <div className={styles.rightCardSide}>
+                <div className={styles.right}>
                     <p className={styles.author}>
-                        <strong>Authors:</strong> {authorNames.join(", ")}
+                        <strong>Authors: </strong>
+                        {authorNames.join(", ")}
                     </p>
                     <p className={styles.duration}>
                         <strong>Duration:</strong> {getCourseDuration(duration)}
@@ -37,10 +42,18 @@ function CourseCard({
                         <strong>Created:</strong>{" "}
                         {formatCreationDate(creationDate)}
                     </p>
-                    <Button
-                        buttonText="Show Course"
-                        onClick={handleShowCourse}
-                    />
+                    <div className={styles.buttonsGroup}>
+                        <Button
+                            buttonText="Show Course"
+                            onClick={handleShowCourse}
+                        />
+                        {userRole.toUpperCase() === "ADMIN" && (
+                            <>
+                                <Button icon={<FaTrash />} onClick={onDelete} />
+                                <Button icon={<FaPen />} onClick={() => {}} />
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

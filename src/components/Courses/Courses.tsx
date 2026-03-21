@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { getCurrentUser } from "../../store/user/thunk";
+import { deleteCourse } from "../../store/courses/thunk";
+import { fetchCourses } from "../../store/courses/thunk";
 import { Course, Author } from "../../types/course";
 import Header from "../Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -29,6 +31,7 @@ function Courses() {
     useEffect(() => {
         setFilteredCourses(courses);
     }, [courses]);
+
     const authorMap: { [id: string]: string } = {};
     for (const author of authors) {
         authorMap[author.id] = author.name;
@@ -40,6 +43,7 @@ function Courses() {
 
     const handleSearch = (query: string) => {
         const trimmedQuery = query.trim().toLowerCase();
+
         if (trimmedQuery === "") {
             setFilteredCourses(courses);
             return;
@@ -52,6 +56,13 @@ function Courses() {
         );
 
         setFilteredCourses(result);
+    };
+
+    const handleDeleteCourse = async (courseId: string) => {
+        const result = await dispatch(deleteCourse(courseId));
+        if (deleteCourse.fulfilled.match(result)) {
+            dispatch(fetchCourses());
+        }
     };
 
     const isEmpty = filteredCourses.length === 0;
@@ -85,6 +96,7 @@ function Courses() {
                             duration={course.duration}
                             creationDate={course.creationDate}
                             authorNames={getAuthors(course.authors)}
+                            onDelete={() => handleDeleteCourse(course.id)}
                         />
                     ))
                 )}
@@ -92,4 +104,5 @@ function Courses() {
         </>
     );
 }
+
 export default Courses;

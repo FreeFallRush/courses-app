@@ -9,12 +9,13 @@ export const REGISTER_USER_PENDING = "user/registerUser/pending";
 export const REGISTER_USER_FULFILLED = "user/registerUser/fulfilled";
 export const REGISTER_USER_REJECTED = "user/registerUser/rejected";
 
+export type UserRole = "ADMIN" | "USER" | "";
 export interface UserState {
     isAuth: boolean;
     name: string;
     email: string;
     token: string;
-    role: string;
+    role: UserRole;
 }
 
 interface SetUserAction {

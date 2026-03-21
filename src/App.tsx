@@ -16,6 +16,7 @@ import Registration from "./components/Registration/Registration";
 import Courses from "./components/Courses/Courses";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CreateCourse from "./components/CourseForm/CourseForm";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 import "./App.css";
 
@@ -44,7 +45,7 @@ function App() {
         }
     }, [dispatch, user.isAuth, token]);
 
-    const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+    const AuthRoute = ({ children }: { children: JSX.Element }) => {
         return user.isAuth ? children : <Navigate to="/login" />;
     };
 
@@ -83,18 +84,18 @@ function App() {
                 <Route
                     path="/courses"
                     element={
-                        <PrivateRoute>
+                        <AuthRoute>
                             <Courses />
-                        </PrivateRoute>
+                        </AuthRoute>
                     }
                 />
 
                 <Route
                     path="/courses/:courseId"
                     element={
-                        <PrivateRoute>
+                        <AuthRoute>
                             <CourseInfo />
-                        </PrivateRoute>
+                        </AuthRoute>
                     }
                 />
 

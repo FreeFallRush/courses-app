@@ -7,6 +7,9 @@ import {
 } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { fetchCourses } from "./store/courses/thunk";
+import { fetchAuthors } from "./store/authors/thunk";
+import { getCurrentUser } from "./store/user/thunk";
 
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
@@ -14,38 +17,43 @@ import Courses from "./components/Courses/Courses";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CreateCourse from "./components/CourseForm/CourseForm";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import { fetchCourses } from "./store/courses/thunk";
-import { fetchAuthors } from "./store/authors/thunk";
 
 import "./App.css";
 
 function App() {
     const dispatch = useAppDispatch();
-    const user = useAppSelector((state) => state.user);
-    const token = user.token;
+    const { isAuth, token, isLoadingUser } = useAppSelector(
+        (state) => state.user
+    );
 
     useEffect(() => {
-        if (user.isAuth && token) {
-            const fetchData = async () => {
-                try {
-                    dispatch(fetchCourses());
-
-                    dispatch(fetchAuthors());
-                } catch (error) {
-                    console.error("Failed to fetch data:", error);
-                }
-            };
-
-            fetchData();
+        if (token) {
+            dispatch(getCurrentUser());
+        } else {
+            dispatch({
+                type: "user/getCurrentUser/rejected",
+                error: "No token",
+            });
         }
-    }, [dispatch, user.isAuth, token]);
+    }, [dispatch, token]);
+
+    useEffect(() => {
+        if (isAuth && token) {
+            dispatch(fetchCourses());
+            dispatch(fetchAuthors());
+        }
+    }, [dispatch, isAuth, token]);
+
+    if (isLoadingUser) {
+        return <div>Loading...</div>;
+    }
 
     const AuthRoute = ({ children }: { children: JSX.Element }) => {
-        return user.isAuth ? children : <Navigate to="/login" />;
+        return isAuth ? children : <Navigate to="/login" />;
     };
 
     const PublicRoute = ({ children }: { children: JSX.Element }) => {
-        return !user.isAuth ? children : <Navigate to="/courses" />;
+        return !isAuth ? children : <Navigate to="/courses" />;
     };
 
     return (
@@ -53,9 +61,7 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={
-                        <Navigate to={user.isAuth ? "/courses" : "/login"} />
-                    }
+                    element={<Navigate to={isAuth ? "/courses" : "/login"} />}
                 />
 
                 <Route
@@ -96,6 +102,15 @@ function App() {
 
                 <Route
                     path="/courses/add"
+                    element={
+                        <PrivateRoute>
+                            <CreateCourse />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/courses/update/:courseId"
                     element={
                         <PrivateRoute>
                             <CreateCourse />

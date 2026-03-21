@@ -10,6 +10,9 @@ import {
     REGISTER_USER_PENDING,
     REGISTER_USER_FULFILLED,
     REGISTER_USER_REJECTED,
+    GET_USER_PENDING,
+    GET_USER_FULFILLED,
+    GET_USER_REJECTED,
 } from "./types";
 
 export const userReducer = (
@@ -23,27 +26,41 @@ export const userReducer = (
                 ...action.payload,
                 isAuth: true,
             };
+
         case REMOVE_USER:
             return {
                 ...userInitialState,
                 token: "",
+                isAuth: false,
+                isLoadingUser: false,
             };
+
         case LOGIN_USER_PENDING:
         case REGISTER_USER_PENDING:
-            return state;
+        case GET_USER_PENDING:
+            return {
+                ...state,
+                isLoadingUser: true,
+            };
+
         case LOGIN_USER_FULFILLED:
         case REGISTER_USER_FULFILLED:
+        case GET_USER_FULFILLED:
             return {
-                ...state,
                 ...action.payload,
                 isAuth: true,
+                isLoadingUser: false,
             };
+
         case LOGIN_USER_REJECTED:
         case REGISTER_USER_REJECTED:
+        case GET_USER_REJECTED:
             return {
-                ...state,
+                ...userInitialState,
                 isAuth: false,
+                isLoadingUser: false,
             };
+
         default:
             return state;
     }

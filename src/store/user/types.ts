@@ -9,6 +9,10 @@ export const REGISTER_USER_PENDING = "user/registerUser/pending";
 export const REGISTER_USER_FULFILLED = "user/registerUser/fulfilled";
 export const REGISTER_USER_REJECTED = "user/registerUser/rejected";
 
+export const GET_USER_PENDING = "user/getCurrentUser/pending";
+export const GET_USER_FULFILLED = "user/getCurrentUser/fulfilled";
+export const GET_USER_REJECTED = "user/getCurrentUser/rejected";
+
 export type UserRole = "ADMIN" | "USER" | "";
 export interface UserState {
     isAuth: boolean;
@@ -16,6 +20,7 @@ export interface UserState {
     email: string;
     token: string;
     role: UserRole;
+    isLoadingUser: boolean;
 }
 
 interface SetUserAction {
@@ -35,12 +40,17 @@ export type UserActionTypes =
     | { type: typeof LOGIN_USER_REJECTED; error: string }
     | { type: typeof REGISTER_USER_PENDING }
     | { type: typeof REGISTER_USER_FULFILLED; payload: UserState }
-    | { type: typeof REGISTER_USER_REJECTED; error: string };
+    | { type: typeof REGISTER_USER_REJECTED; error: string }
+    | { type: typeof GET_USER_PENDING }
+    | { type: typeof GET_USER_FULFILLED; payload: UserState }
+    | { type: typeof GET_USER_REJECTED; error: string };
 
 export const userInitialState: UserState = {
     isAuth: false,
     name: "",
     email: "",
-    token: "",
+    token: localStorage.getItem("token") || "",
+
     role: "",
+    isLoadingUser: true,
 };

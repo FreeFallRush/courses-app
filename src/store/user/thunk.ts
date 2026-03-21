@@ -24,6 +24,7 @@ async function fetchCurrentUser(token: string): Promise<UserState> {
         email: userData.result.email,
         token,
         role: userData.result.role,
+        isLoadingUser: false,
     };
 }
 

@@ -9,7 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setCourses } from "./store/courses/actions";
 import { setAuthors } from "./store/authors/actions";
-import { getCourses, getAuthors } from "./services";
+import { getAuthors } from "./services";
 
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
@@ -17,6 +17,7 @@ import Courses from "./components/Courses/Courses";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CreateCourse from "./components/CourseForm/CourseForm";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import { fetchCourses } from "./store/courses/thunk";
 
 import "./App.css";
 
@@ -29,12 +30,9 @@ function App() {
         if (user.isAuth && token) {
             const fetchData = async () => {
                 try {
-                    const [coursesData, authorsData] = await Promise.all([
-                        getCourses(),
-                        getAuthors(),
-                    ]);
+                    dispatch(fetchCourses());
 
-                    dispatch(setCourses(coursesData.result));
+                    const authorsData = await getAuthors();
                     dispatch(setAuthors(authorsData.result));
                 } catch (error) {
                     console.error("Failed to fetch data:", error);

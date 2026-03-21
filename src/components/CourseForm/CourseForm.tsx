@@ -8,10 +8,10 @@ import { Author } from "../../store/authors/types";
 import { useAuthors } from "../../hooks/useAuthors";
 import { useCourseForm } from "../../hooks/useCourseForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { addCourse } from "../../store/courses/actions";
 import { addAuthor } from "../../store/authors/actions";
 import { CreateCourseAuthorErrors } from "../../types/formErrors";
 import { validateAuthorName } from "../../helpers/validateAuthorName";
+import { createCourse } from "../../store/courses/thunk";
 
 import styles from "./CourseForm.module.css";
 
@@ -44,10 +44,10 @@ const CreateCourse = () => {
         handleCreateCourse,
     } = useCourseForm(courseAuthors, () => setCourseAuthors([]));
 
-    const onCreateCourse = () => {
+    const onCreateCourse = async () => {
         const newCourse = handleCreateCourse();
         if (newCourse) {
-            dispatch(addCourse(newCourse));
+            await dispatch(createCourse(newCourse));
             navigate("/courses");
         }
     };

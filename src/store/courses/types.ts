@@ -23,7 +23,7 @@ interface AddCourseAction {
 
 interface DeleteCourseAction {
     type: typeof DELETE_COURSE;
-    payload: string; // course ID
+    payload: string;
 }
 
 export type CourseActionTypes =

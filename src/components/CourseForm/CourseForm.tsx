@@ -13,6 +13,7 @@ import { CreateCourseAuthorErrors } from "../../types/formErrors";
 import { validateAuthorName } from "../../helpers/validateAuthorName";
 import { createCourse } from "../../store/courses/thunk";
 import { createAuthor } from "../../store/authors/thunk";
+import { deleteAuthor } from "../../store/authors/thunk";
 
 import styles from "./CourseForm.module.css";
 
@@ -69,6 +70,15 @@ const CreateCourse = () => {
             console.error("Failed to create author:", error);
         }
     };
+
+    const handleDeleteAuthor = async (authorId: string) => {
+        try {
+            await dispatch(deleteAuthor(authorId));
+        } catch (error) {
+            console.error("Error deleting author", error);
+        }
+    };
+
     return (
         <>
             <Header />
@@ -154,9 +164,9 @@ const CreateCourse = () => {
                                         key={author.id}
                                         name={author.name}
                                         onAdd={() => addCourseAuthor(author)}
-                                        // onDelete={() =>
-                                        //     deleteAuthorFromList(author)
-                                        // }
+                                        onDelete={() =>
+                                            handleDeleteAuthor(author.id)
+                                        }
                                     />
                                 ))
                             ) : (

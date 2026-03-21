@@ -1,5 +1,6 @@
 export const SET_AUTHORS = "SET_AUTHORS";
 export const ADD_AUTHOR = "ADD_AUTHOR";
+export const DELETE_AUTHOR = "DELETE_AUTHOR";
 
 export interface Author {
     id: string;
@@ -16,4 +17,12 @@ interface AddAuthorAction {
     payload: Author;
 }
 
-export type AuthorActionTypes = SetAuthorsAction | AddAuthorAction;
+interface DeleteAuthorAction {
+    type: typeof DELETE_AUTHOR;
+    payload: string;
+}
+
+export type AuthorActionTypes =
+    | SetAuthorsAction
+    | AddAuthorAction
+    | DeleteAuthorAction;

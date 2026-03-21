@@ -1,4 +1,10 @@
-import { SET_AUTHORS, ADD_AUTHOR, Author, AuthorActionTypes } from "./types";
+import {
+    SET_AUTHORS,
+    ADD_AUTHOR,
+    DELETE_AUTHOR,
+    Author,
+    AuthorActionTypes,
+} from "./types";
 
 export const setAuthors = (authors: Author[]): AuthorActionTypes => ({
     type: SET_AUTHORS,
@@ -8,4 +14,9 @@ export const setAuthors = (authors: Author[]): AuthorActionTypes => ({
 export const addAuthor = (author: Author): AuthorActionTypes => ({
     type: ADD_AUTHOR,
     payload: author,
+});
+
+export const deleteAuthor = (authorId: string): AuthorActionTypes => ({
+    type: DELETE_AUTHOR,
+    payload: authorId,
 });

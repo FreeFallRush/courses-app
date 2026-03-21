@@ -10,6 +10,9 @@ import {
     validatePassword,
 } from "../../helpers/getFormValidation";
 
+import { useAppDispatch } from "../../store/hooks";
+import { registerUser } from "../../store/user/thunk";
+
 const Registration = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -21,6 +24,7 @@ const Registration = () => {
     });
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -38,36 +42,12 @@ const Registration = () => {
         );
         if (hasErrors) return;
 
-        const newUser = { name, email, password };
-
         try {
-            const response = await fetch(
-                "https://react-courses-app-1.onrender.com/register",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(newUser),
-                }
-            );
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Registration error data:", errorData);
-
-                const errorMessage = Array.isArray(errorData.errors)
-                    ? errorData.errors.join(", ")
-                    : errorData.errors || errorData.message || "Unknown error";
-
-                alert(`Registration failed: ${errorMessage}`);
-                return;
-            }
-
+            await dispatch(registerUser({ name, email, password })).unwrap();
+            alert("Registration successful! Please log in.");
             navigate("/login");
-        } catch (error) {
-            console.error("Registration error:", error);
-            alert("Something went wrong. Please try again.");
+        } catch (error: unknown) {
+            alert(`Registration failed: ${error}`);
         }
     };
 

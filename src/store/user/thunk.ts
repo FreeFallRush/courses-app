@@ -57,7 +57,7 @@ export const loginUser = createAsyncThunk<
 });
 
 export const registerUser = createAsyncThunk<
-    UserState,
+    void,
     Credentials,
     { rejectValue: string }
 >("user/registerUser", async (credentials, thunkAPI) => {
@@ -74,13 +74,7 @@ export const registerUser = createAsyncThunk<
             return thunkAPI.rejectWithValue(
                 data.errors || "Registration failed"
             );
-
-        const token = data.result;
-        localStorage.setItem("token", token);
-
-        const user = await fetchCurrentUser(token);
-
-        return user;
+        return;
     } catch (error) {
         return thunkAPI.rejectWithValue("Network error");
     }

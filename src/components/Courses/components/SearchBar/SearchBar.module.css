@@ -1,6 +1,22 @@
 .searchBar {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
     justify-content: center;
+}
+
+.searchBar input {
+    width: 100%;
+    width: 400px;
+}
+
+@media (max-width: 768px) {
+    .searchBar {
+        display: flex;
+        justify-content: space-between;
+
+        width: 100%;
+    }
+    .searchBar input {
+        width: 85%;
+    }
 }

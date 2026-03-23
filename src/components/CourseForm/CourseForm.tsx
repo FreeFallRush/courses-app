@@ -11,7 +11,7 @@ import { useAuthors } from "../../hooks/useAuthors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import formatCreationDate from "../../helpers/formatCreationDate";
 
-import { createAuthor, deleteAuthor } from "../../store/authors/thunk";
+import { createAuthor, deleteAuthorById } from "../../store/authors/thunk";
 import { createCourse, updateCourse } from "../../store/courses/thunk";
 
 import { CreateCourseAuthorErrors } from "../../types/formErrors";
@@ -127,7 +127,7 @@ const CreateCourse = () => {
 
     const handleDeleteAuthor = async (authorId: string) => {
         try {
-            await dispatch(deleteAuthor(authorId));
+            await dispatch(deleteAuthorById(authorId));
         } catch (error) {
             console.error("Error deleting author", error);
         }

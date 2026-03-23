@@ -1,22 +1,22 @@
-# 📚 React Courses App
+# React Courses App
 
 A full-stack React application for managing courses and authors.
 This project was developed as part of the EPAM React training program and covers React fundamentals, forms, routing, Redux, and async state management.
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
-- 🚀 Frontend: https://freefallrush-courses-app.netlify.app
-- 🔗 Backend API (Render): https://react-courses-app-1.onrender.com/api
+- Frontend: https://freefallrush-courses-app.netlify.app
+- Backend API (Render): https://react-courses-app-1.onrender.com/api
 
 ---
 
-## ⚠️ Important Note (Backend Loading)
+## Important Note (Backend Loading)
 
 The backend is hosted on Render (free tier).
 
-👉 The server may take **20–60 seconds to start** after inactivity.
+The server may take **20–60 seconds to start** after inactivity.
 If the app doesn’t work immediately:
 
 - Open: https://react-courses-app-1.onrender.com/api
@@ -30,7 +30,7 @@ If the app doesn’t work immediately:
 The backend API is **provided by EPAM (not developed by me)** and deployed separately.
 
 Swagger documentation:
-👉 https://react-courses-app-1.onrender.com/api
+https://react-courses-app-1.onrender.com/api
 
 ### How to use Swagger
 
@@ -42,7 +42,7 @@ Swagger documentation:
 
 ---
 
-## 🔐 Admin Access
+## Admin Access
 
 Use these credentials to test full functionality:
 
@@ -60,7 +60,7 @@ password: admin123
 
 ---
 
-## 🚀 Features
+## Features
 
 ### 1️⃣ React Components
 
@@ -164,7 +164,7 @@ src/services.ts
 
 ---
 
-## 🔐 Role-Based Access
+## Role-Based Access
 
 ### Admin
 
@@ -196,7 +196,7 @@ PrivateRoute component
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 src
@@ -222,7 +222,7 @@ npm run dev
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 npm run test
@@ -230,7 +230,7 @@ npm run test
 
 ---
 
-## 📌 Notes
+## Notes
 
 - Backend is external (EPAM training server)
 - First request may be slow (Render free tier)

@@ -22,3 +22,9 @@
 .input.invalid {
     border-color: #ff0000;
 }
+
+@media (max-width: 768px) {
+    .input {
+        width: 90%;
+    }
+}
